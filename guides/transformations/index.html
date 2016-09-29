@@ -452,7 +452,9 @@ directly:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-elm" data-lang="elm">rotatedPoint =
-    Point2d.rotateAround Point2d.origin (degrees 45) originalPoint</code></pre>
+    Point2d.rotateAround Point2d.origin
+        (degrees 45)
+        originalPoint</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -468,12 +470,12 @@ transformations can be directly used with higher-order functions like
     , Point2d ( 3, 0 )
     ]
 
-rotateNinetyDegrees : Point2d -&gt; Point2d
-rotateNinetyDegrees =
+rotate90Degrees : Point2d -&gt; Point2d
+rotate90Degrees =
     Point2d.rotateAround Point2d.origin (degrees 90)
 
 pointsOnYAxis =
-    List.map rotateNinetyDegrees pointsOnXAxis
+    List.map rotate90Degrees pointsOnXAxis
 
 pointsOnYAxis ==
     [ Point2d ( 0, 1 )
@@ -489,10 +491,17 @@ matrices!):</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-elm" data-lang="elm">rotateThenScale : Point2d -&gt; Point2d
-rotateThenScale =
+<pre class="highlightjs highlight"><code class="language-elm" data-lang="elm">rotate90Degrees : Point2d -&gt; Point2d
+rotate90Degrees =
     Point2d.rotateAround Point2d.origin (degrees 90)
-        &gt;&gt; Point2d.scaleAbout Point2d.origin 1.5
+
+scale150Percent : Point2d -&gt; Point2d
+scale150Percent =
+    Point2d.scaleAbout Point2d.origin 1.5
+
+rotateThenScale : Point2d -&gt; Point2d
+rotateThenScale =
+    rotate90Degrees &gt;&gt; scale150Percent
 
 rotateThenScale (Point2d ( 1, 0 )) ==
     Point2d ( 0, 1.5 )
@@ -528,11 +537,23 @@ point to scale about, a value to scale by, and finally the value to scale:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-elm" data-lang="elm">lineSegment =
-    LineSegment2d ( Point2d ( 1, 1 ), Point2d ( 3, 2 ) )
+<pre class="highlightjs highlight"><code class="language-elm" data-lang="elm">point =
+    Point2d ( 1, 1 )
 
-LineSegment2d.scaleAbout (Point2d ( 1, 1 )) 2 lineSegment ==
-    LineSegment2d ( Point2d ( 1, 1 ), Point2d ( 5, 3 ) )</code></pre>
+segment =
+    LineSegment2d
+        ( Point2d ( 1, 1 )
+        , Point2d ( 3, 2 )
+        )
+
+scaledSegment =
+    LineSegment2d.scaleAbout point 2.0 segment
+
+scaledSegment ==
+    LineSegment2d
+        ( Point2d ( 1, 1 )
+        , Point2d ( 5, 3 )
+        )</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -552,10 +573,19 @@ and then the value to translate:</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-elm" data-lang="elm">axis =
-    Axis2d { originPoint = Point2d ( 2, 3 ), direction = Direction2d.x }
+    Axis2d
+        { originPoint = Point2d ( 2, 3 )
+        , direction = Direction2d.x
+        }
 
-Axis2d.translateBy (Vector2d ( 1, 2 )) axis ==
-    Axis2d { originPoint = Point2d ( 3, 5 ), direction = Direction2d.x }</code></pre>
+displacement =
+    Vector2d ( 1, 2 )
+
+Axis2d.translateBy displacement axis ==
+    Axis2d
+        { originPoint = Point2d ( 3, 5 )
+        , direction = Direction2d.x
+        }</code></pre>
 </div>
 </div>
 </div>
@@ -581,7 +611,7 @@ Axis2d.translateBy (Vector2d ( 1, 2 )) axis ==
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-09-29 16:32:46 AUS Eastern Standard Time
+Last updated 2016-09-29 16:46:40 AUS Eastern Standard Time
 </div>
 </div>
 <link rel="stylesheet" href="../highlight/styles/github-gist.min.css">
