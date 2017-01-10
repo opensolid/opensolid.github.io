@@ -14,4 +14,4 @@ html, head, body { margin: 0px; height: 100%; }
 .elm-overlay-message-details ul ul { list-style-type: disc; padding-left: 2em; }
 .elm-overlay-message-details li { margin: 8px 0px; }
 .elm-overlay-message-buttons { height: 60px; line-height: 60px; text-align: right; background-color: rgb(50, 50, 50); }
-.elm-overlay-message-buttons button { margin-right: 20px; }]]></style></defs><g transform="matrix(1 0 0 -1 -90 210)"><polyline points="100,100 200,200" stroke="blue" stroke-width="5"/></g><polygon points="0,0 0,120 120,120 120,0" fill="none" stroke="black" stroke-width="1"/></svg>
+.elm-overlay-message-buttons button { margin-right: 20px; }]]></style></defs><g transform="matrix(1 0 0 -1 -90 210)"><polyline points="100,100 200,200" stroke="blue" stroke-width="5"/></g></svg>
