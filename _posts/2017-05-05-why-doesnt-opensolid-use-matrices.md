@@ -4,8 +4,6 @@ title: Why Doesn't OpenSolid Use Matrices?
 tags: frame transformation matrix
 ---
 
-# A section
-
 ## A sub-section
 
   - A bullet
