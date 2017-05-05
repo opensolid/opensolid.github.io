@@ -1,7 +1,8 @@
---
+---
+categories: posts
 title: Why Doesn't OpenSolid Use Matrices?
 tags: frame transformation matrix
---
+---
 
 # A section
 
