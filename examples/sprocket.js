@@ -25923,7 +25923,16 @@ var _opensolid$scenegraph$Sprocket$view = function (_p25) {
 			ctor: '::',
 			_0: A2(
 				_elm_lang$html$Html$div,
-				_opensolid$scenegraph$Sprocket$dragAttributes,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						{
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'display', _1: 'inline'},
+							_1: {ctor: '[]'}
+						}),
+					_1: _opensolid$scenegraph$Sprocket$dragAttributes
+				},
 				{
 					ctor: '::',
 					_0: A3(
