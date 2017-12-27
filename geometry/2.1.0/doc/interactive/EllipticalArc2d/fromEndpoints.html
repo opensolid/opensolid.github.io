@@ -21673,7 +21673,7 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchStart = F2(
 				_elm_lang$core$Native_Utils.update(
 					_p35,
 					{touchState: updatedTouchState})),
-			_1: _elm_lang$core$Maybe$Nothing
+			_1: {ctor: '[]'}
 		};
 	});
 var _opensolid$geometry$OpenSolid_Svg_Interaction$LongPressThresholdTime = function (a) {
@@ -22127,6 +22127,13 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$Touch = F2(
 	function (a, b) {
 		return {ctor: 'Touch', _0: a, _1: b};
 	});
+var _opensolid$geometry$OpenSolid_Svg_Interaction$Lift = function (a) {
+	return {ctor: 'Lift', _0: a};
+};
+var _opensolid$geometry$OpenSolid_Svg_Interaction$Slide = F2(
+	function (a, b) {
+		return {ctor: 'Slide', _0: a, _1: b};
+	});
 var _opensolid$geometry$OpenSolid_Svg_Interaction$moveTouch = F3(
 	function (_p73, touchEvent, activeTouch) {
 		var _p74 = _p73;
@@ -22144,9 +22151,9 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$moveTouch = F3(
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_opensolid$geometry$OpenSolid_Svg_Interaction$Touch,
+						_opensolid$geometry$OpenSolid_Svg_Interaction$Slide,
 						touchEvent.target,
-						{identifier: touchEvent.identifier, startPoint: activeTouch.startPoint, previousPoint: activeTouch.startPoint, currentPoint: touchEvent.point}),
+						{startPoint: activeTouch.startPoint, previousPoint: activeTouch.startPoint, currentPoint: touchEvent.point}),
 					_1: {ctor: '[]'}
 				}
 			} : {
@@ -22164,9 +22171,9 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$moveTouch = F3(
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_opensolid$geometry$OpenSolid_Svg_Interaction$Touch,
+							_opensolid$geometry$OpenSolid_Svg_Interaction$Slide,
 							touchEvent.target,
-							{identifier: touchEvent.identifier, startPoint: activeTouch.startPoint, previousPoint: activeTouch.currentPoint, currentPoint: touchEvent.point}),
+							{startPoint: activeTouch.startPoint, previousPoint: activeTouch.currentPoint, currentPoint: touchEvent.point}),
 						_1: {ctor: '[]'}
 					}
 				};
@@ -22178,9 +22185,6 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$moveTouch = F3(
 					{ctor: '_Tuple0'});
 		}
 	});
-var _opensolid$geometry$OpenSolid_Svg_Interaction$Gesture = function (a) {
-	return {ctor: 'Gesture', _0: a};
-};
 var _opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchMove = F2(
 	function (touchEvents, _p78) {
 		var _p79 = _p78;
@@ -22196,12 +22200,12 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchMove = F2(
 					if (_elm_lang$core$Native_Utils.eq(touchEvent.target, _p84.target)) {
 						var _p83 = A3(_opensolid$geometry$OpenSolid_Svg_Interaction$moveTouch, _p88.config, touchEvent, _p84);
 						var updatedTouch = _p83._0;
-						var newMoves = _p83._1;
+						var newInteractions = _p83._1;
 						var updatedTouchState = A3(_elm_lang$core$Dict$insert, touchEvent.identifier, updatedTouch, _p86);
 						return {
 							ctor: '_Tuple2',
 							_0: updatedTouchState,
-							_1: A2(_elm_lang$core$Basics_ops['++'], _p85, newMoves)
+							_1: A2(_elm_lang$core$Basics_ops['++'], _p85, newInteractions)
 						};
 					} else {
 						return A2(
@@ -22238,16 +22242,14 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchMove = F2(
 			},
 			touchEvents);
 		var updatedTouchState = _p87._0;
-		var moves = _p87._1;
-		var interaction = _elm_lang$core$List$isEmpty(moves) ? _elm_lang$core$Maybe$Nothing : _elm_lang$core$Maybe$Just(
-			_opensolid$geometry$OpenSolid_Svg_Interaction$Gesture(moves));
+		var interactions = _p87._1;
 		return {
 			ctor: '_Tuple2',
 			_0: _opensolid$geometry$OpenSolid_Svg_Interaction$Model(
 				_elm_lang$core$Native_Utils.update(
 					_p88,
 					{touchState: updatedTouchState})),
-			_1: interaction
+			_1: interactions
 		};
 	});
 var _opensolid$geometry$OpenSolid_Svg_Interaction$LongPress = function (a) {
@@ -22310,15 +22312,14 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$updateTouchProgress = F2(
 			_p99.touchState);
 		var updatedTouchState = _p98._0;
 		var targets = _p98._1;
-		var interaction = _elm_lang$core$List$isEmpty(targets) ? _elm_lang$core$Maybe$Nothing : _elm_lang$core$Maybe$Just(
-			_opensolid$geometry$OpenSolid_Svg_Interaction$LongPress(targets));
+		var interactions = _elm_lang$core$List$isEmpty(targets) ? {ctor: '[]'} : A2(_elm_lang$core$List$map, _opensolid$geometry$OpenSolid_Svg_Interaction$LongPress, targets);
 		return {
 			ctor: '_Tuple2',
 			_0: _opensolid$geometry$OpenSolid_Svg_Interaction$Model(
 				_elm_lang$core$Native_Utils.update(
 					_p99,
 					{touchState: updatedTouchState})),
-			_1: interaction
+			_1: interactions
 		};
 	});
 var _opensolid$geometry$OpenSolid_Svg_Interaction$Tap = function (a) {
@@ -22327,34 +22328,37 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$Tap = function (a) {
 var _opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchEnd = F2(
 	function (touchEvents, _p100) {
 		var _p101 = _p100;
-		var _p110 = _p101._0;
+		var _p111 = _p101._0;
 		var processEvent = F2(
 			function (touchEvent, _p102) {
 				var _p103 = _p102;
-				var _p108 = _p103._0;
-				var _p107 = _p103._1;
-				var _p104 = A2(_elm_lang$core$Dict$get, touchEvent.identifier, _p108);
+				var _p109 = _p103._0;
+				var _p108 = _p103._1;
+				var _p107 = _p103._2;
+				var _p104 = A2(_elm_lang$core$Dict$get, touchEvent.identifier, _p109);
 				if (_p104.ctor === 'Just') {
 					var _p106 = _p104._0;
 					if (_elm_lang$core$Native_Utils.eq(touchEvent.target, _p106.target)) {
-						var tappedTargets = function () {
-							var _p105 = _p106.progress;
-							if (_p105.ctor === 'Tapping') {
+						var updatedTouchState = A2(_elm_lang$core$Dict$remove, touchEvent.identifier, _p109);
+						var _p105 = _p106.progress;
+						switch (_p105.ctor) {
+							case 'Tapping':
 								return {
-									ctor: '::',
-									_0: _p106.target,
-									_1: {ctor: '[]'}
+									ctor: '_Tuple3',
+									_0: updatedTouchState,
+									_1: {ctor: '::', _0: _p106.target, _1: _p108},
+									_2: _p107
 								};
-							} else {
-								return {ctor: '[]'};
-							}
-						}();
-						var updatedTouchState = A2(_elm_lang$core$Dict$remove, touchEvent.identifier, _p108);
-						return {
-							ctor: '_Tuple2',
-							_0: updatedTouchState,
-							_1: A2(_elm_lang$core$Basics_ops['++'], _p107, tappedTargets)
-						};
+							case 'LongPressed':
+								return {ctor: '_Tuple3', _0: updatedTouchState, _1: _p108, _2: _p107};
+							default:
+								return {
+									ctor: '_Tuple3',
+									_0: updatedTouchState,
+									_1: _p108,
+									_2: {ctor: '::', _0: _p106.target, _1: _p107}
+								};
+						}
 					} else {
 						return A2(
 							_opensolid$geometry$OpenSolid_Svg_Interaction$logError,
@@ -22368,7 +22372,7 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchEnd = F2(
 										_elm_lang$core$Basics_ops['++'],
 										' does not match active touch ',
 										_elm_lang$core$Basics$toString(_p106)))),
-							{ctor: '_Tuple2', _0: _p108, _1: _p107});
+							{ctor: '_Tuple3', _0: _p109, _1: _p108, _2: _p107});
 					}
 				} else {
 					return A2(
@@ -22377,43 +22381,53 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchEnd = F2(
 							_elm_lang$core$Basics_ops['++'],
 							'No active touch found for touch end event ',
 							_elm_lang$core$Basics$toString(touchEvent)),
-						{ctor: '_Tuple2', _0: _p108, _1: _p107});
+						{ctor: '_Tuple3', _0: _p109, _1: _p108, _2: _p107});
 				}
 			});
-		var _p109 = A3(
+		var _p110 = A3(
 			_elm_lang$core$List$foldl,
 			processEvent,
 			{
-				ctor: '_Tuple2',
-				_0: _p110.touchState,
-				_1: {ctor: '[]'}
+				ctor: '_Tuple3',
+				_0: _p111.touchState,
+				_1: {ctor: '[]'},
+				_2: {ctor: '[]'}
 			},
 			touchEvents);
-		var updatedTouchState = _p109._0;
-		var targets = _p109._1;
-		var interaction = _elm_lang$core$List$isEmpty(targets) ? _elm_lang$core$Maybe$Nothing : _elm_lang$core$Maybe$Just(
-			_opensolid$geometry$OpenSolid_Svg_Interaction$Tap(targets));
+		var updatedTouchState = _p110._0;
+		var tapTargets = _p110._1;
+		var liftTargets = _p110._2;
+		var interactions = A2(
+			_elm_lang$core$Basics_ops['++'],
+			A2(
+				_elm_lang$core$List$map,
+				_opensolid$geometry$OpenSolid_Svg_Interaction$Tap,
+				_elm_lang$core$List$reverse(tapTargets)),
+			A2(
+				_elm_lang$core$List$map,
+				_opensolid$geometry$OpenSolid_Svg_Interaction$Lift,
+				_elm_lang$core$List$reverse(liftTargets)));
 		return {
 			ctor: '_Tuple2',
 			_0: _opensolid$geometry$OpenSolid_Svg_Interaction$Model(
 				_elm_lang$core$Native_Utils.update(
-					_p110,
+					_p111,
 					{touchState: updatedTouchState})),
-			_1: interaction
+			_1: interactions
 		};
 	});
 var _opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchMessage = F2(
 	function (touchMessage, model) {
-		var _p111 = touchMessage;
-		switch (_p111.ctor) {
+		var _p112 = touchMessage;
+		switch (_p112.ctor) {
 			case 'TouchStart':
-				return A2(_opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchStart, _p111._0, model);
+				return A2(_opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchStart, _p112._0, model);
 			case 'TouchMove':
-				return A2(_opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchMove, _p111._0, model);
+				return A2(_opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchMove, _p112._0, model);
 			case 'TouchEnd':
-				return A2(_opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchEnd, _p111._0, model);
+				return A2(_opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchEnd, _p112._0, model);
 			default:
-				return A2(_opensolid$geometry$OpenSolid_Svg_Interaction$updateTouchProgress, _p111._0, model);
+				return A2(_opensolid$geometry$OpenSolid_Svg_Interaction$updateTouchProgress, _p112._0, model);
 		}
 	});
 var _opensolid$geometry$OpenSolid_Svg_Interaction$Scroll = F3(
@@ -22433,22 +22447,26 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$Click = F2(
 		return {ctor: 'Click', _0: a, _1: b};
 	});
 var _opensolid$geometry$OpenSolid_Svg_Interaction$handleMouseMessage = F2(
-	function (message, _p112) {
-		var _p113 = _p112;
-		var _p138 = _p113;
-		var _p114 = _p113._0;
-		var config = _p114.config;
-		var mouseState = _p114.mouseState;
-		var justFinishedDrag = _p114.justFinishedDrag;
-		var touchState = _p114.touchState;
-		var unexpectedMouseEvent = function (_p115) {
-			var _p116 = _p115;
-			var _p117 = A2(_elm_lang$core$Debug$log, 'Please raise an issue at', 'https://github.com/opensolid/svg/issues/new');
-			var _p118 = A2(
+	function (message, _p113) {
+		var _p114 = _p113;
+		var _p139 = _p114;
+		var _p115 = _p114._0;
+		var config = _p115.config;
+		var mouseState = _p115.mouseState;
+		var justFinishedDrag = _p115.justFinishedDrag;
+		var touchState = _p115.touchState;
+		var unexpectedMouseEvent = function (_p116) {
+			var _p117 = _p116;
+			var _p118 = A2(_elm_lang$core$Debug$log, 'Please raise an issue at', 'https://github.com/opensolid/svg/issues/new');
+			var _p119 = A2(
 				_elm_lang$core$Debug$log,
 				'Unexpected mouse state/message combination',
 				{ctor: '_Tuple2', _0: mouseState, _1: message});
-			return {ctor: '_Tuple2', _0: _p138, _1: _elm_lang$core$Maybe$Nothing};
+			return {
+				ctor: '_Tuple2',
+				_0: _p139,
+				_1: {ctor: '[]'}
+			};
 		};
 		var setMouseState = function (updatedMouseState) {
 			return _opensolid$geometry$OpenSolid_Svg_Interaction$Model(
@@ -22458,45 +22476,22 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleMouseMessage = F2(
 			return _opensolid$geometry$OpenSolid_Svg_Interaction$Model(
 				{config: config, mouseState: updatedMouseState, justFinishedDrag: true, touchState: touchState});
 		};
-		var _p119 = {ctor: '_Tuple2', _0: mouseState, _1: message};
+		var _p120 = {ctor: '_Tuple2', _0: mouseState, _1: message};
 		_v48_17:
 		do {
-			if (_p119.ctor === '_Tuple2') {
-				switch (_p119._1.ctor) {
+			if (_p120.ctor === '_Tuple2') {
+				switch (_p120._1.ctor) {
 					case 'EnteredTarget':
-						if (_p119._0.ctor === 'Resting') {
+						if (_p120._0.ctor === 'Resting') {
 							return {
 								ctor: '_Tuple2',
 								_0: setMouseState(
 									_opensolid$geometry$OpenSolid_Svg_Interaction$Resting(
-										A2(_opensolid$geometry$OpenSolid_Svg_Interaction$enterTarget, _p119._1._0, _p119._0._0))),
-								_1: _elm_lang$core$Maybe$Nothing
+										A2(_opensolid$geometry$OpenSolid_Svg_Interaction$enterTarget, _p120._1._0, _p120._0._0))),
+								_1: {ctor: '[]'}
 							};
 						} else {
-							var _p120 = _p119._0._0;
-							return {
-								ctor: '_Tuple2',
-								_0: setMouseState(
-									_opensolid$geometry$OpenSolid_Svg_Interaction$Dragging(
-										_elm_lang$core$Native_Utils.update(
-											_p120,
-											{
-												hoverState: A2(_opensolid$geometry$OpenSolid_Svg_Interaction$enterTarget, _p119._1._0, _p120.hoverState)
-											}))),
-								_1: _elm_lang$core$Maybe$Nothing
-							};
-						}
-					case 'LeftTarget':
-						if (_p119._0.ctor === 'Resting') {
-							return {
-								ctor: '_Tuple2',
-								_0: setMouseState(
-									_opensolid$geometry$OpenSolid_Svg_Interaction$Resting(
-										A2(_opensolid$geometry$OpenSolid_Svg_Interaction$leaveTarget, _p119._1._0, _p119._0._0))),
-								_1: _elm_lang$core$Maybe$Nothing
-							};
-						} else {
-							var _p121 = _p119._0._0;
+							var _p121 = _p120._0._0;
 							return {
 								ctor: '_Tuple2',
 								_0: setMouseState(
@@ -22504,22 +22499,22 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleMouseMessage = F2(
 										_elm_lang$core$Native_Utils.update(
 											_p121,
 											{
-												hoverState: A2(_opensolid$geometry$OpenSolid_Svg_Interaction$leaveTarget, _p119._1._0, _p121.hoverState)
+												hoverState: A2(_opensolid$geometry$OpenSolid_Svg_Interaction$enterTarget, _p120._1._0, _p121.hoverState)
 											}))),
-								_1: _elm_lang$core$Maybe$Nothing
+								_1: {ctor: '[]'}
 							};
 						}
-					case 'EnteredContainer':
-						if (_p119._0.ctor === 'Resting') {
+					case 'LeftTarget':
+						if (_p120._0.ctor === 'Resting') {
 							return {
 								ctor: '_Tuple2',
 								_0: setMouseState(
 									_opensolid$geometry$OpenSolid_Svg_Interaction$Resting(
-										A2(_opensolid$geometry$OpenSolid_Svg_Interaction$enterContainer, _p119._1._0, _p119._0._0))),
-								_1: _elm_lang$core$Maybe$Nothing
+										A2(_opensolid$geometry$OpenSolid_Svg_Interaction$leaveTarget, _p120._1._0, _p120._0._0))),
+								_1: {ctor: '[]'}
 							};
 						} else {
-							var _p122 = _p119._0._0;
+							var _p122 = _p120._0._0;
 							return {
 								ctor: '_Tuple2',
 								_0: setMouseState(
@@ -22527,22 +22522,22 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleMouseMessage = F2(
 										_elm_lang$core$Native_Utils.update(
 											_p122,
 											{
-												hoverState: A2(_opensolid$geometry$OpenSolid_Svg_Interaction$enterContainer, _p119._1._0, _p122.hoverState)
+												hoverState: A2(_opensolid$geometry$OpenSolid_Svg_Interaction$leaveTarget, _p120._1._0, _p122.hoverState)
 											}))),
-								_1: _elm_lang$core$Maybe$Nothing
+								_1: {ctor: '[]'}
 							};
 						}
-					case 'LeftContainer':
-						if (_p119._0.ctor === 'Resting') {
+					case 'EnteredContainer':
+						if (_p120._0.ctor === 'Resting') {
 							return {
 								ctor: '_Tuple2',
 								_0: setMouseState(
 									_opensolid$geometry$OpenSolid_Svg_Interaction$Resting(
-										A2(_opensolid$geometry$OpenSolid_Svg_Interaction$leaveContainer, _p119._1._0, _p119._0._0))),
-								_1: _elm_lang$core$Maybe$Nothing
+										A2(_opensolid$geometry$OpenSolid_Svg_Interaction$enterContainer, _p120._1._0, _p120._0._0))),
+								_1: {ctor: '[]'}
 							};
 						} else {
-							var _p123 = _p119._0._0;
+							var _p123 = _p120._0._0;
 							return {
 								ctor: '_Tuple2',
 								_0: setMouseState(
@@ -22550,33 +22545,56 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleMouseMessage = F2(
 										_elm_lang$core$Native_Utils.update(
 											_p123,
 											{
-												hoverState: A2(_opensolid$geometry$OpenSolid_Svg_Interaction$leaveContainer, _p119._1._0, _p123.hoverState)
+												hoverState: A2(_opensolid$geometry$OpenSolid_Svg_Interaction$enterContainer, _p120._1._0, _p123.hoverState)
 											}))),
-								_1: _elm_lang$core$Maybe$Nothing
+								_1: {ctor: '[]'}
+							};
+						}
+					case 'LeftContainer':
+						if (_p120._0.ctor === 'Resting') {
+							return {
+								ctor: '_Tuple2',
+								_0: setMouseState(
+									_opensolid$geometry$OpenSolid_Svg_Interaction$Resting(
+										A2(_opensolid$geometry$OpenSolid_Svg_Interaction$leaveContainer, _p120._1._0, _p120._0._0))),
+								_1: {ctor: '[]'}
+							};
+						} else {
+							var _p124 = _p120._0._0;
+							return {
+								ctor: '_Tuple2',
+								_0: setMouseState(
+									_opensolid$geometry$OpenSolid_Svg_Interaction$Dragging(
+										_elm_lang$core$Native_Utils.update(
+											_p124,
+											{
+												hoverState: A2(_opensolid$geometry$OpenSolid_Svg_Interaction$leaveContainer, _p120._1._0, _p124.hoverState)
+											}))),
+								_1: {ctor: '[]'}
 							};
 						}
 					case 'PrimaryMouseDown':
-						if (_p119._0.ctor === 'Resting') {
-							var _p128 = _p119._1._0;
-							var _p127 = _p119._0._0;
-							var startDrag = function (_p124) {
-								var _p125 = _p124;
+						if (_p120._0.ctor === 'Resting') {
+							var _p129 = _p120._1._0;
+							var _p128 = _p120._0._0;
+							var startDrag = function (_p125) {
+								var _p126 = _p125;
 								return {
 									ctor: '_Tuple2',
 									_0: setMouseState(
 										_opensolid$geometry$OpenSolid_Svg_Interaction$Dragging(
-											{target: _p128.target, hoverState: _p127, startPoint: _p128.point, currentPoint: _p128.point, dragStarted: false, pageOrigin: _p128.pageOrigin, modifiers: _p128.modifiers})),
-									_1: _elm_lang$core$Maybe$Nothing
+											{target: _p129.target, hoverState: _p128, startPoint: _p129.point, currentPoint: _p129.point, dragStarted: false, pageOrigin: _p129.pageOrigin, modifiers: _p129.modifiers})),
+									_1: {ctor: '[]'}
 								};
 							};
-							var _p126 = {ctor: '_Tuple2', _0: _p127.target, _1: _p127.container};
-							if (_p126._0.ctor === 'Just') {
-								return _elm_lang$core$Native_Utils.eq(_p128.target, _p126._0._0) ? startDrag(
+							var _p127 = {ctor: '_Tuple2', _0: _p128.target, _1: _p128.container};
+							if (_p127._0.ctor === 'Just') {
+								return _elm_lang$core$Native_Utils.eq(_p129.target, _p127._0._0) ? startDrag(
 									{ctor: '_Tuple0'}) : unexpectedMouseEvent(
 									{ctor: '_Tuple0'});
 							} else {
-								if (_p126._1.ctor === 'Just') {
-									return _elm_lang$core$Native_Utils.eq(_p128.target, _p126._1._0) ? startDrag(
+								if (_p127._1.ctor === 'Just') {
+									return _elm_lang$core$Native_Utils.eq(_p129.target, _p127._1._0) ? startDrag(
 										{ctor: '_Tuple0'}) : unexpectedMouseEvent(
 										{ctor: '_Tuple0'});
 								} else {
@@ -22588,25 +22606,9 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleMouseMessage = F2(
 							break _v48_17;
 						}
 					case 'KeyDown':
-						if (_p119._0.ctor === 'Dragging') {
-							var _p129 = _p119._0._0;
-							var updatedModifiers = A2(_opensolid$geometry$OpenSolid_Svg_Interaction$keyDown, _p119._1._0, _p129.modifiers);
-							return {
-								ctor: '_Tuple2',
-								_0: setMouseState(
-									_opensolid$geometry$OpenSolid_Svg_Interaction$Dragging(
-										_elm_lang$core$Native_Utils.update(
-											_p129,
-											{modifiers: updatedModifiers}))),
-								_1: _elm_lang$core$Maybe$Nothing
-							};
-						} else {
-							break _v48_17;
-						}
-					case 'KeyUp':
-						if (_p119._0.ctor === 'Dragging') {
-							var _p130 = _p119._0._0;
-							var updatedModifiers = A2(_opensolid$geometry$OpenSolid_Svg_Interaction$keyUp, _p119._1._0, _p130.modifiers);
+						if (_p120._0.ctor === 'Dragging') {
+							var _p130 = _p120._0._0;
+							var updatedModifiers = A2(_opensolid$geometry$OpenSolid_Svg_Interaction$keyDown, _p120._1._0, _p130.modifiers);
 							return {
 								ctor: '_Tuple2',
 								_0: setMouseState(
@@ -22614,32 +22616,52 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleMouseMessage = F2(
 										_elm_lang$core$Native_Utils.update(
 											_p130,
 											{modifiers: updatedModifiers}))),
-								_1: _elm_lang$core$Maybe$Nothing
+								_1: {ctor: '[]'}
+							};
+						} else {
+							break _v48_17;
+						}
+					case 'KeyUp':
+						if (_p120._0.ctor === 'Dragging') {
+							var _p131 = _p120._0._0;
+							var updatedModifiers = A2(_opensolid$geometry$OpenSolid_Svg_Interaction$keyUp, _p120._1._0, _p131.modifiers);
+							return {
+								ctor: '_Tuple2',
+								_0: setMouseState(
+									_opensolid$geometry$OpenSolid_Svg_Interaction$Dragging(
+										_elm_lang$core$Native_Utils.update(
+											_p131,
+											{modifiers: updatedModifiers}))),
+								_1: {ctor: '[]'}
 							};
 						} else {
 							break _v48_17;
 						}
 					case 'MouseUp':
-						if (_p119._0.ctor === 'Dragging') {
-							var _p132 = _p119._1._0;
-							var _p131 = _p119._0._0;
-							var target = _p131.target;
-							var hoverState = _p131.hoverState;
-							var startPoint = _p131.startPoint;
-							var currentPoint = _p131.currentPoint;
-							var modifiers = _p131.modifiers;
-							var dragStarted = _p131.dragStarted;
-							if (_elm_lang$core$Native_Utils.eq(_p132, currentPoint) || (!dragStarted)) {
+						if (_p120._0.ctor === 'Dragging') {
+							var _p133 = _p120._1._0;
+							var _p132 = _p120._0._0;
+							var target = _p132.target;
+							var hoverState = _p132.hoverState;
+							var startPoint = _p132.startPoint;
+							var currentPoint = _p132.currentPoint;
+							var modifiers = _p132.modifiers;
+							var dragStarted = _p132.dragStarted;
+							if (_elm_lang$core$Native_Utils.eq(_p133, currentPoint) || (!dragStarted)) {
 								var interaction = dragStarted ? A3(
 									_opensolid$geometry$OpenSolid_Svg_Interaction$Release,
 									target,
 									modifiers,
-									{startPoint: startPoint, endPoint: _p132}) : A2(_opensolid$geometry$OpenSolid_Svg_Interaction$Click, target, modifiers);
+									{startPoint: startPoint, endPoint: _p133}) : A2(_opensolid$geometry$OpenSolid_Svg_Interaction$Click, target, modifiers);
 								return {
 									ctor: '_Tuple2',
 									_0: finishDrag(
 										_opensolid$geometry$OpenSolid_Svg_Interaction$Resting(hoverState)),
-									_1: _elm_lang$core$Maybe$Just(interaction)
+									_1: {
+										ctor: '::',
+										_0: interaction,
+										_1: {ctor: '[]'}
+									}
 								};
 							} else {
 								return unexpectedMouseEvent(
@@ -22649,24 +22671,31 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleMouseMessage = F2(
 							break _v48_17;
 						}
 					case 'OtherMouseDown':
-						if (_p119._0.ctor === 'Resting') {
-							return {ctor: '_Tuple2', _0: _p138, _1: _elm_lang$core$Maybe$Nothing};
+						if (_p120._0.ctor === 'Resting') {
+							return {
+								ctor: '_Tuple2',
+								_0: _p139,
+								_1: {ctor: '[]'}
+							};
 						} else {
-							var _p134 = _p119._1._0;
-							var _p133 = _p119._0._0;
-							var target = _p133.target;
-							var hoverState = _p133.hoverState;
-							var startPoint = _p133.startPoint;
-							var currentPoint = _p133.currentPoint;
-							var modifiers = _p133.modifiers;
-							var dragStarted = _p133.dragStarted;
-							if (_elm_lang$core$Native_Utils.eq(_p134, currentPoint) || (!dragStarted)) {
-								var interaction = dragStarted ? _elm_lang$core$Maybe$Just(
-									A3(
+							var _p135 = _p120._1._0;
+							var _p134 = _p120._0._0;
+							var target = _p134.target;
+							var hoverState = _p134.hoverState;
+							var startPoint = _p134.startPoint;
+							var currentPoint = _p134.currentPoint;
+							var modifiers = _p134.modifiers;
+							var dragStarted = _p134.dragStarted;
+							if (_elm_lang$core$Native_Utils.eq(_p135, currentPoint) || (!dragStarted)) {
+								var interaction = dragStarted ? {
+									ctor: '::',
+									_0: A3(
 										_opensolid$geometry$OpenSolid_Svg_Interaction$Release,
 										target,
 										modifiers,
-										{startPoint: startPoint, endPoint: _p134})) : _elm_lang$core$Maybe$Nothing;
+										{startPoint: startPoint, endPoint: _p135}),
+									_1: {ctor: '[]'}
+								} : {ctor: '[]'};
 								return {
 									ctor: '_Tuple2',
 									_0: finishDrag(
@@ -22679,45 +22708,55 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleMouseMessage = F2(
 							}
 						}
 					case 'DraggedTo':
-						if (_p119._0.ctor === 'Resting') {
+						if (_p120._0.ctor === 'Resting') {
 							return justFinishedDrag ? {
 								ctor: '_Tuple2',
 								_0: _opensolid$geometry$OpenSolid_Svg_Interaction$Model(
 									{config: config, mouseState: mouseState, justFinishedDrag: false, touchState: touchState}),
-								_1: _elm_lang$core$Maybe$Nothing
+								_1: {ctor: '[]'}
 							} : unexpectedMouseEvent(
 								{ctor: '_Tuple0'});
 						} else {
-							var _p137 = _p119._0._0;
-							var _p136 = _p119._1._0;
-							var _p135 = _p137;
-							var target = _p135.target;
-							var modifiers = _p135.modifiers;
-							var startPoint = _p135.startPoint;
-							var dragStarted = _p137.dragStarted || (_elm_lang$core$Native_Utils.cmp(
-								A2(_opensolid$geometry$OpenSolid_Point2d$distanceFrom, startPoint, _p136),
+							var _p138 = _p120._0._0;
+							var _p137 = _p120._1._0;
+							var _p136 = _p138;
+							var target = _p136.target;
+							var modifiers = _p136.modifiers;
+							var startPoint = _p136.startPoint;
+							var dragStarted = _p138.dragStarted || (_elm_lang$core$Native_Utils.cmp(
+								A2(_opensolid$geometry$OpenSolid_Point2d$distanceFrom, startPoint, _p137),
 								config.dragThresholdDistance) > 0);
 							return dragStarted ? {
 								ctor: '_Tuple2',
 								_0: setMouseState(
 									_opensolid$geometry$OpenSolid_Svg_Interaction$Dragging(
 										_elm_lang$core$Native_Utils.update(
-											_p137,
-											{currentPoint: _p136, dragStarted: true}))),
-								_1: _elm_lang$core$Maybe$Just(
-									A3(
+											_p138,
+											{currentPoint: _p137, dragStarted: true}))),
+								_1: {
+									ctor: '::',
+									_0: A3(
 										_opensolid$geometry$OpenSolid_Svg_Interaction$Drag,
 										target,
 										modifiers,
-										{startPoint: startPoint, previousPoint: _p137.currentPoint, currentPoint: _p136}))
-							} : {ctor: '_Tuple2', _0: _p138, _1: _elm_lang$core$Maybe$Nothing};
+										{startPoint: startPoint, previousPoint: _p138.currentPoint, currentPoint: _p137}),
+									_1: {ctor: '[]'}
+								}
+							} : {
+								ctor: '_Tuple2',
+								_0: _p139,
+								_1: {ctor: '[]'}
+							};
 						}
 					default:
 						return {
 							ctor: '_Tuple2',
-							_0: _p138,
-							_1: _elm_lang$core$Maybe$Just(
-								A3(_opensolid$geometry$OpenSolid_Svg_Interaction$Scroll, _p119._1._0, _p119._1._1, _p119._1._2))
+							_0: _p139,
+							_1: {
+								ctor: '::',
+								_0: A3(_opensolid$geometry$OpenSolid_Svg_Interaction$Scroll, _p120._1._0, _p120._1._1, _p120._1._2),
+								_1: {ctor: '[]'}
+							}
 						};
 				}
 			} else {
@@ -22729,16 +22768,16 @@ var _opensolid$geometry$OpenSolid_Svg_Interaction$handleMouseMessage = F2(
 	});
 var _opensolid$geometry$OpenSolid_Svg_Interaction$update = F2(
 	function (message, model) {
-		var _p139 = message;
-		switch (_p139.ctor) {
+		var _p140 = message;
+		switch (_p140.ctor) {
 			case 'MouseMsg':
-				return A2(_opensolid$geometry$OpenSolid_Svg_Interaction$handleMouseMessage, _p139._0, model);
+				return A2(_opensolid$geometry$OpenSolid_Svg_Interaction$handleMouseMessage, _p140._0, model);
 			case 'TouchMsg':
-				return A2(_opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchMessage, _p139._0, model);
+				return A2(_opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchMessage, _p140._0, model);
 			default:
 				return A2(
 					_opensolid$geometry$OpenSolid_Svg_Interaction$handleTouchMessage,
-					_opensolid$geometry$OpenSolid_Svg_Interaction$UpdateTouchProgress(_p139._0),
+					_opensolid$geometry$OpenSolid_Svg_Interaction$UpdateTouchProgress(_p140._0),
 					_opensolid$geometry$OpenSolid_Svg_Interaction$finalizeDrag(model));
 		}
 	});
@@ -22768,6 +22807,21 @@ var _opensolid$geometry$EllipticalArc2d_FromEndpoints$constructArc = function (m
 	return _opensolid$geometry$OpenSolid_EllipticalArc2d$fromEndpoints(
 		{startPoint: model.startPoint, endPoint: model.endPoint, xDirection: model.xDirection, xRadius: model.xRadius, yRadius: model.yRadius, sweptAngle: model.sweptAngle});
 };
+var _opensolid$geometry$EllipticalArc2d_FromEndpoints$drawDirection = function (attributes) {
+	return _opensolid$geometry$OpenSolid_Svg$direction2d(
+		{
+			length: 50,
+			tipLength: 10,
+			tipWidth: 10,
+			tipAttributes: {ctor: '[]'},
+			stemAttributes: {ctor: '[]'},
+			groupAttributes: attributes
+		});
+};
+var _opensolid$geometry$EllipticalArc2d_FromEndpoints$drawPoint = function (attributes) {
+	return _opensolid$geometry$OpenSolid_Svg$point2d(
+		{radius: 3, attributes: attributes});
+};
 var _opensolid$geometry$EllipticalArc2d_FromEndpoints$dashed = _elm_lang$svg$Svg_Attributes$strokeDasharray('5 5');
 var _opensolid$geometry$EllipticalArc2d_FromEndpoints$roundCap = _elm_lang$svg$Svg_Attributes$strokeLinecap('round');
 var _opensolid$geometry$EllipticalArc2d_FromEndpoints$thickStroke = _elm_lang$svg$Svg_Attributes$strokeWidth('10');
@@ -22778,42 +22832,23 @@ var _opensolid$geometry$EllipticalArc2d_FromEndpoints$lightStroke = _elm_lang$sv
 var _opensolid$geometry$EllipticalArc2d_FromEndpoints$blackStroke = _elm_lang$svg$Svg_Attributes$stroke('black');
 var _opensolid$geometry$EllipticalArc2d_FromEndpoints$blackFill = _elm_lang$svg$Svg_Attributes$fill('black');
 var _opensolid$geometry$EllipticalArc2d_FromEndpoints$whiteFill = _elm_lang$svg$Svg_Attributes$fill('white');
-var _opensolid$geometry$EllipticalArc2d_FromEndpoints$drawPoint = _opensolid$geometry$OpenSolid_Svg$point2d(
-	{
-		radius: 3,
-		attributes: {
-			ctor: '::',
-			_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$whiteFill,
-			_1: {
-				ctor: '::',
-				_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$blackStroke,
-				_1: {ctor: '[]'}
-			}
-		}
-	});
-var _opensolid$geometry$EllipticalArc2d_FromEndpoints$drawDirection = _opensolid$geometry$OpenSolid_Svg$direction2d(
-	{
-		length: 50,
-		tipLength: 10,
-		tipWidth: 10,
-		tipAttributes: {
-			ctor: '::',
-			_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$whiteFill,
-			_1: {ctor: '[]'}
-		},
-		stemAttributes: {ctor: '[]'},
-		groupAttributes: {
-			ctor: '::',
-			_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$blackStroke,
-			_1: {ctor: '[]'}
-		}
-	});
 var _opensolid$geometry$EllipticalArc2d_FromEndpoints$noFill = _elm_lang$svg$Svg_Attributes$fill('none');
+var _opensolid$geometry$EllipticalArc2d_FromEndpoints$currrentDragCenter = function (model) {
+	var _p2 = model.dragRotationCenter;
+	if (_p2.ctor === 'Just') {
+		return _elm_lang$core$Maybe$Just(_p2._0);
+	} else {
+		return A2(
+			_elm_lang$core$Maybe$map,
+			_opensolid$geometry$OpenSolid_EllipticalArc2d$centerPoint,
+			_opensolid$geometry$EllipticalArc2d_FromEndpoints$constructArc(model));
+	}
+};
 var _opensolid$geometry$EllipticalArc2d_FromEndpoints$drag = F4(
 	function (target, previousPoint, currentPoint, model) {
 		var displacement = A2(_opensolid$geometry$OpenSolid_Vector2d$from, previousPoint, currentPoint);
-		var _p2 = target;
-		switch (_p2.ctor) {
+		var _p3 = target;
+		switch (_p3.ctor) {
 			case 'StartPoint':
 				return _elm_lang$core$Native_Utils.update(
 					model,
@@ -22834,17 +22869,7 @@ var _opensolid$geometry$EllipticalArc2d_FromEndpoints$drag = F4(
 						endPoint: A2(_opensolid$geometry$OpenSolid_Point2d$translateBy, displacement, model.endPoint)
 					});
 			case 'XDirection':
-				var currentCenter = function () {
-					var _p3 = model.dragRotationCenter;
-					if (_p3.ctor === 'Just') {
-						return _elm_lang$core$Maybe$Just(_p3._0);
-					} else {
-						return A2(
-							_elm_lang$core$Maybe$map,
-							_opensolid$geometry$OpenSolid_EllipticalArc2d$centerPoint,
-							_opensolid$geometry$EllipticalArc2d_FromEndpoints$constructArc(model));
-					}
-				}();
+				var currentCenter = _opensolid$geometry$EllipticalArc2d_FromEndpoints$currrentDragCenter(model);
 				var rotatedDirection = function () {
 					var _p4 = currentCenter;
 					if (_p4.ctor === 'Just') {
@@ -22890,32 +22915,29 @@ var _opensolid$geometry$EllipticalArc2d_FromEndpoints$XRadius = {ctor: 'XRadius'
 var _opensolid$geometry$EllipticalArc2d_FromEndpoints$update = F2(
 	function (_p5, model) {
 		var _p6 = _p5;
-		var _p7 = A2(_opensolid$geometry$OpenSolid_Svg_Interaction$update, _p6._0, model.interactionModel);
-		var updatedInteractionModel = _p7._0;
-		var notification = _p7._1;
-		var updatedModel = function () {
-			var _p8 = notification;
-			_v5_6:
-			do {
-				if (_p8.ctor === 'Just') {
-					switch (_p8._0.ctor) {
+		var handleInteraction = F2(
+			function (interaction, model) {
+				var _p7 = interaction;
+				_v5_7:
+				do {
+					switch (_p7.ctor) {
 						case 'Drag':
-							return A4(_opensolid$geometry$EllipticalArc2d_FromEndpoints$drag, _p8._0._0, _p8._0._2.previousPoint, _p8._0._2.currentPoint, model);
+							return A4(_opensolid$geometry$EllipticalArc2d_FromEndpoints$drag, _p7._0, _p7._2.previousPoint, _p7._2.currentPoint, model);
 						case 'Release':
-							if (_p8._0._0.ctor === 'XDirection') {
+							if (_p7._0.ctor === 'XDirection') {
 								return _elm_lang$core$Native_Utils.update(
 									model,
 									{dragRotationCenter: _elm_lang$core$Maybe$Nothing});
 							} else {
-								break _v5_6;
+								break _v5_7;
 							}
 						case 'Click':
-							var _p9 = _p8._0._0;
-							switch (_p9.ctor) {
+							var _p8 = _p7._0;
+							switch (_p8.ctor) {
 								case 'Section':
 									return _elm_lang$core$Native_Utils.update(
 										model,
-										{sweptAngle: _p9._0, selected: _elm_lang$core$Maybe$Nothing});
+										{sweptAngle: _p8._0, selected: _elm_lang$core$Maybe$Nothing});
 								case 'XRadius':
 									return _elm_lang$core$Native_Utils.update(
 										model,
@@ -22934,32 +22956,23 @@ var _opensolid$geometry$EllipticalArc2d_FromEndpoints$update = F2(
 										{selected: _elm_lang$core$Maybe$Nothing});
 							}
 						case 'Tap':
-							if ((_p8._0._0.ctor === '::') && (_p8._0._0._1.ctor === '[]')) {
-								var _p10 = _p8._0._0._0;
-								if (_p10.ctor === 'Section') {
-									return _elm_lang$core$Native_Utils.update(
-										model,
-										{sweptAngle: _p10._0});
-								} else {
-									return model;
-								}
+							var _p9 = _p7._0;
+							if (_p9.ctor === 'Section') {
+								return _elm_lang$core$Native_Utils.update(
+									model,
+									{sweptAngle: _p9._0});
 							} else {
-								break _v5_6;
+								return model;
 							}
-						case 'Gesture':
-							var applyDrag = F2(
-								function (_p11, model) {
-									var _p12 = _p11;
-									return A4(_opensolid$geometry$EllipticalArc2d_FromEndpoints$drag, _p12._0, _p12._1.previousPoint, _p12._1.currentPoint, model);
-								});
-							return A3(_elm_lang$core$List$foldl, applyDrag, model, _p8._0._0);
+						case 'Slide':
+							return A4(_opensolid$geometry$EllipticalArc2d_FromEndpoints$drag, _p7._0, _p7._1.previousPoint, _p7._1.currentPoint, model);
 						case 'Scroll':
-							var scale = _opensolid$geometry$OpenSolid_Svg_Interaction_ScrollAmount$isPositive(_p8._0._2) ? (1 / 1.1) : 1.1;
-							var _p13 = model.selected;
-							_v9_2:
+							var scale = _opensolid$geometry$OpenSolid_Svg_Interaction_ScrollAmount$isPositive(_p7._2) ? (1 / 1.1) : 1.1;
+							var _p10 = model.selected;
+							_v8_2:
 							do {
-								if (_p13.ctor === 'Just') {
-									switch (_p13._0.ctor) {
+								if (_p10.ctor === 'Just') {
+									switch (_p10._0.ctor) {
 										case 'XRadius':
 											return _elm_lang$core$Native_Utils.update(
 												model,
@@ -22969,27 +22982,39 @@ var _opensolid$geometry$EllipticalArc2d_FromEndpoints$update = F2(
 												model,
 												{yRadius: scale * model.yRadius});
 										default:
-											break _v9_2;
+											break _v8_2;
 									}
 								} else {
-									break _v9_2;
+									break _v8_2;
 								}
 							} while(false);
 							return model;
+						case 'Lift':
+							if (_p7._0.ctor === 'XDirection') {
+								return _elm_lang$core$Native_Utils.update(
+									model,
+									{dragRotationCenter: _elm_lang$core$Maybe$Nothing});
+							} else {
+								break _v5_7;
+							}
 						default:
-							break _v5_6;
+							break _v5_7;
 					}
-				} else {
-					break _v5_6;
-				}
-			} while(false);
-			return model;
-		}();
+				} while(false);
+				return model;
+			});
+		var _p11 = A2(_opensolid$geometry$OpenSolid_Svg_Interaction$update, _p6._0, model.interactionModel);
+		var updatedInteractionModel = _p11._0;
+		var interactions = _p11._1;
 		return {
 			ctor: '_Tuple2',
-			_0: _elm_lang$core$Native_Utils.update(
-				updatedModel,
-				{interactionModel: updatedInteractionModel}),
+			_0: A3(
+				_elm_lang$core$List$foldl,
+				handleInteraction,
+				_elm_lang$core$Native_Utils.update(
+					model,
+					{interactionModel: updatedInteractionModel}),
+				interactions),
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
@@ -23054,12 +23079,28 @@ var _opensolid$geometry$EllipticalArc2d_FromEndpoints$lineSegmentHandle = F2(
 				{target: target, padding: 15}));
 	});
 var _opensolid$geometry$EllipticalArc2d_FromEndpoints$view = function (model) {
-	var _p14 = _opensolid$geometry$OpenSolid_BoundingBox2d$extrema(_opensolid$geometry$EllipticalArc2d_FromEndpoints$boundingBox);
-	var maxX = _p14.maxX;
-	var minY = _p14.minY;
-	var directionHandle = function () {
-		var _p15 = model.dragRotationCenter;
-		if (_p15.ctor === 'Just') {
+	var _p12 = _opensolid$geometry$OpenSolid_BoundingBox2d$extrema(_opensolid$geometry$EllipticalArc2d_FromEndpoints$boundingBox);
+	var maxX = _p12.maxX;
+	var minY = _p12.minY;
+	var directionTipHandle = function () {
+		var _p13 = _opensolid$geometry$EllipticalArc2d_FromEndpoints$currrentDragCenter(model);
+		if (_p13.ctor === 'Just') {
+			return A2(
+				_elm_lang$svg$Svg$map,
+				_opensolid$geometry$EllipticalArc2d_FromEndpoints$InteractionMsg,
+				A3(
+					_opensolid$geometry$OpenSolid_Svg_Interaction$directionTipHandle,
+					_p13._0,
+					model.xDirection,
+					{length: 50, tipLength: 10, tipWidth: 10, target: _opensolid$geometry$EllipticalArc2d_FromEndpoints$XDirection, padding: 15}));
+		} else {
+			return _elm_lang$svg$Svg$text('');
+		}
+	}();
+	var anchoredDirection = function () {
+		var _p14 = model.dragRotationCenter;
+		if (_p14.ctor === 'Just') {
+			var _p15 = _p14._0;
 			return A2(
 				_elm_lang$svg$Svg$g,
 				{
@@ -23074,18 +23115,18 @@ var _opensolid$geometry$EllipticalArc2d_FromEndpoints$view = function (model) {
 				{
 					ctor: '::',
 					_0: A3(
-						_opensolid$geometry$OpenSolid_Svg$direction2d,
-						{
-							length: 50,
-							tipLength: 10,
-							tipWidth: 10,
-							groupAttributes: {ctor: '[]'},
-							tipAttributes: {ctor: '[]'},
-							stemAttributes: {ctor: '[]'}
-						},
-						_p15._0,
+						_opensolid$geometry$EllipticalArc2d_FromEndpoints$drawDirection,
+						{ctor: '[]'},
+						_p15,
 						model.xDirection),
-					_1: {ctor: '[]'}
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_opensolid$geometry$EllipticalArc2d_FromEndpoints$drawPoint,
+							{ctor: '[]'},
+							_p15),
+						_1: {ctor: '[]'}
+					}
 				});
 		} else {
 			return _elm_lang$svg$Svg$text('');
@@ -23296,29 +23337,37 @@ var _opensolid$geometry$EllipticalArc2d_FromEndpoints$view = function (model) {
 								_0: directionIndicator,
 								_1: {
 									ctor: '::',
-									_0: A2(_opensolid$geometry$EllipticalArc2d_FromEndpoints$drawDirection, centerPoint, model.xDirection),
+									_0: A3(
+										_opensolid$geometry$EllipticalArc2d_FromEndpoints$drawDirection,
+										{
+											ctor: '::',
+											_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$noFill,
+											_1: {
+												ctor: '::',
+												_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$blackStroke,
+												_1: {ctor: '[]'}
+											}
+										},
+										centerPoint,
+										model.xDirection),
 									_1: {
 										ctor: '::',
 										_0: A2(
-											_elm_lang$svg$Svg$map,
-											_opensolid$geometry$EllipticalArc2d_FromEndpoints$InteractionMsg,
-											A3(
-												_opensolid$geometry$OpenSolid_Svg_Interaction$directionTipHandle,
-												centerPoint,
-												model.xDirection,
-												{length: 50, tipLength: 10, tipWidth: 10, target: _opensolid$geometry$EllipticalArc2d_FromEndpoints$XDirection, padding: 15})),
-										_1: {
-											ctor: '::',
-											_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$drawPoint(centerPoint),
-											_1: {
+											_opensolid$geometry$EllipticalArc2d_FromEndpoints$drawPoint,
+											{
 												ctor: '::',
-												_0: A2(_opensolid$geometry$EllipticalArc2d_FromEndpoints$pointHandle, _opensolid$geometry$EllipticalArc2d_FromEndpoints$CenterPoint, centerPoint),
+												_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$whiteFill,
 												_1: {
 													ctor: '::',
-													_0: directionHandle,
+													_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$blackStroke,
 													_1: {ctor: '[]'}
 												}
-											}
+											},
+											centerPoint),
+										_1: {
+											ctor: '::',
+											_0: A2(_opensolid$geometry$EllipticalArc2d_FromEndpoints$pointHandle, _opensolid$geometry$EllipticalArc2d_FromEndpoints$CenterPoint, centerPoint),
+											_1: {ctor: '[]'}
 										}
 									}
 								}
@@ -23342,71 +23391,97 @@ var _opensolid$geometry$EllipticalArc2d_FromEndpoints$view = function (model) {
 				_0: ellipseSvg,
 				_1: {
 					ctor: '::',
-					_0: directionHandle,
+					_0: anchoredDirection,
 					_1: {
 						ctor: '::',
-						_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$drawPoint(model.startPoint),
+						_0: directionTipHandle,
 						_1: {
 							ctor: '::',
-							_0: A2(_opensolid$geometry$EllipticalArc2d_FromEndpoints$pointHandle, _opensolid$geometry$EllipticalArc2d_FromEndpoints$StartPoint, model.startPoint),
-							_1: {
-								ctor: '::',
-								_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$drawPoint(model.endPoint),
-								_1: {
+							_0: A2(
+								_opensolid$geometry$EllipticalArc2d_FromEndpoints$drawPoint,
+								{
 									ctor: '::',
-									_0: A2(_opensolid$geometry$EllipticalArc2d_FromEndpoints$pointHandle, _opensolid$geometry$EllipticalArc2d_FromEndpoints$EndPoint, model.endPoint),
+									_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$whiteFill,
 									_1: {
 										ctor: '::',
-										_0: A2(
-											_opensolid$geometry$OpenSolid_Svg$boundingBox2d,
-											{
+										_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$blackStroke,
+										_1: {ctor: '[]'}
+									}
+								},
+								model.startPoint),
+							_1: {
+								ctor: '::',
+								_0: A2(_opensolid$geometry$EllipticalArc2d_FromEndpoints$pointHandle, _opensolid$geometry$EllipticalArc2d_FromEndpoints$StartPoint, model.startPoint),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_opensolid$geometry$EllipticalArc2d_FromEndpoints$drawPoint,
+										{
+											ctor: '::',
+											_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$whiteFill,
+											_1: {
 												ctor: '::',
-												_0: _elm_lang$svg$Svg_Attributes$stroke('rgb(238, 238, 238)'),
-												_1: {
-													ctor: '::',
-													_0: _elm_lang$svg$Svg_Attributes$rx('6'),
-													_1: {
-														ctor: '::',
-														_0: _elm_lang$svg$Svg_Attributes$ry('6'),
-														_1: {
-															ctor: '::',
-															_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$noFill,
-															_1: {ctor: '[]'}
-														}
-													}
-												}
-											},
-											_opensolid$geometry$OpenSolid_BoundingBox2d$with(
-												{
-													minX: _opensolid$geometry$OpenSolid_BoundingBox2d$minX(_opensolid$geometry$EllipticalArc2d_FromEndpoints$boundingBox) + 0.5,
-													minY: _opensolid$geometry$OpenSolid_BoundingBox2d$minY(_opensolid$geometry$EllipticalArc2d_FromEndpoints$boundingBox) + 0.5,
-													maxX: _opensolid$geometry$OpenSolid_BoundingBox2d$maxX(_opensolid$geometry$EllipticalArc2d_FromEndpoints$boundingBox) - 0.5,
-													maxY: _opensolid$geometry$OpenSolid_BoundingBox2d$maxY(_opensolid$geometry$EllipticalArc2d_FromEndpoints$boundingBox) - 0.5
-												})),
+												_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$blackStroke,
+												_1: {ctor: '[]'}
+											}
+										},
+										model.endPoint),
+									_1: {
+										ctor: '::',
+										_0: A2(_opensolid$geometry$EllipticalArc2d_FromEndpoints$pointHandle, _opensolid$geometry$EllipticalArc2d_FromEndpoints$EndPoint, model.endPoint),
 										_1: {
 											ctor: '::',
-											_0: A3(
-												_opensolid$geometry$OpenSolid_Svg$text2d,
+											_0: A2(
+												_opensolid$geometry$OpenSolid_Svg$boundingBox2d,
 												{
 													ctor: '::',
-													_0: _elm_lang$svg$Svg_Attributes$textAnchor('end'),
+													_0: _elm_lang$svg$Svg_Attributes$stroke('rgb(238, 238, 238)'),
 													_1: {
 														ctor: '::',
-														_0: _elm_lang$svg$Svg_Attributes$alignmentBaseline('baseline'),
+														_0: _elm_lang$svg$Svg_Attributes$rx('6'),
 														_1: {
 															ctor: '::',
-															_0: _elm_lang$svg$Svg_Attributes$fontFamily('monospace'),
-															_1: {ctor: '[]'}
+															_0: _elm_lang$svg$Svg_Attributes$ry('6'),
+															_1: {
+																ctor: '::',
+																_0: _opensolid$geometry$EllipticalArc2d_FromEndpoints$noFill,
+																_1: {ctor: '[]'}
+															}
 														}
 													}
 												},
-												_opensolid$geometry$OpenSolid_Point2d$fromCoordinates(
-													{ctor: '_Tuple2', _0: maxX - 10, _1: minY + 10}),
-												A2(
-													_elm_lang$core$Basics_ops['++'],
-													'sweptAngle = EllipticalArc2d.',
-													_opensolid$geometry$EllipticalArc2d_FromEndpoints$sweptAngleString(model.sweptAngle))),
-											_1: {ctor: '[]'}
+												_opensolid$geometry$OpenSolid_BoundingBox2d$with(
+													{
+														minX: _opensolid$geometry$OpenSolid_BoundingBox2d$minX(_opensolid$geometry$EllipticalArc2d_FromEndpoints$boundingBox) + 0.5,
+														minY: _opensolid$geometry$OpenSolid_BoundingBox2d$minY(_opensolid$geometry$EllipticalArc2d_FromEndpoints$boundingBox) + 0.5,
+														maxX: _opensolid$geometry$OpenSolid_BoundingBox2d$maxX(_opensolid$geometry$EllipticalArc2d_FromEndpoints$boundingBox) - 0.5,
+														maxY: _opensolid$geometry$OpenSolid_BoundingBox2d$maxY(_opensolid$geometry$EllipticalArc2d_FromEndpoints$boundingBox) - 0.5
+													})),
+											_1: {
+												ctor: '::',
+												_0: A3(
+													_opensolid$geometry$OpenSolid_Svg$text2d,
+													{
+														ctor: '::',
+														_0: _elm_lang$svg$Svg_Attributes$textAnchor('end'),
+														_1: {
+															ctor: '::',
+															_0: _elm_lang$svg$Svg_Attributes$alignmentBaseline('baseline'),
+															_1: {
+																ctor: '::',
+																_0: _elm_lang$svg$Svg_Attributes$fontFamily('monospace'),
+																_1: {ctor: '[]'}
+															}
+														}
+													},
+													_opensolid$geometry$OpenSolid_Point2d$fromCoordinates(
+														{ctor: '_Tuple2', _0: maxX - 10, _1: minY + 10}),
+													A2(
+														_elm_lang$core$Basics_ops['++'],
+														'sweptAngle = EllipticalArc2d.',
+														_opensolid$geometry$EllipticalArc2d_FromEndpoints$sweptAngleString(model.sweptAngle))),
+												_1: {ctor: '[]'}
+											}
 										}
 									}
 								}
