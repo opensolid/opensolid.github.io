@@ -21428,7 +21428,7 @@ var _opensolid$svg$DocumentationExamples$placed = function () {
 			}
 		}
 	};
-	var stampSvg = A2(
+	var stamp = A2(
 		_opensolid$svg$OpenSolid_Svg$polygon2d,
 		{
 			ctor: '::',
@@ -21470,7 +21470,7 @@ var _opensolid$svg$DocumentationExamples$placed = function () {
 		A2(
 			_elm_lang$core$List$map,
 			function (frame) {
-				return A2(_opensolid$svg$OpenSolid_Svg$placeIn, frame, stampSvg);
+				return A2(_opensolid$svg$OpenSolid_Svg$placeIn, frame, stamp);
 			},
 			frames));
 }();
@@ -21954,7 +21954,7 @@ var _opensolid$svg$DocumentationExamples$translated = A2(
 			}
 		}
 	});
-var _opensolid$svg$DocumentationExamples$tirangle = A2(
+var _opensolid$svg$DocumentationExamples$triangle = A2(
 	_opensolid$svg$OpenSolid_Svg$triangle2d,
 	{
 		ctor: '::',
@@ -22026,14 +22026,6 @@ var _opensolid$svg$DocumentationExamples$circle = A2(
 var _opensolid$svg$DocumentationExamples$scaled = function () {
 	var referencePoint = _opensolid$svg$OpenSolid_Point2d$fromCoordinates(
 		{ctor: '_Tuple2', _0: 100, _1: 100});
-	var referencePointSvg = A2(
-		_opensolid$svg$OpenSolid_Svg$point2d,
-		{
-			ctor: '::',
-			_0: _elm_lang$svg$Svg_Attributes$fill('black'),
-			_1: {ctor: '[]'}
-		},
-		referencePoint);
 	var scaledCircle = function (scale) {
 		return A3(_opensolid$svg$OpenSolid_Svg$scaleAbout, referencePoint, scale, _opensolid$svg$DocumentationExamples$circle);
 	};
@@ -22055,21 +22047,20 @@ var _opensolid$svg$DocumentationExamples$scaled = function () {
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: referencePointSvg,
+			_0: A2(
+				_opensolid$svg$OpenSolid_Svg$point2d,
+				{
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$fill('black'),
+					_1: {ctor: '[]'}
+				},
+				referencePoint),
 			_1: A2(_elm_lang$core$List$map, scaledCircle, scales)
 		});
 }();
 var _opensolid$svg$DocumentationExamples$rotated = function () {
 	var referencePoint = _opensolid$svg$OpenSolid_Point2d$fromCoordinates(
 		{ctor: '_Tuple2', _0: 200, _1: 150});
-	var referencePointSvg = A2(
-		_opensolid$svg$OpenSolid_Svg$point2d,
-		{
-			ctor: '::',
-			_0: _elm_lang$svg$Svg_Attributes$fill('black'),
-			_1: {ctor: '[]'}
-		},
-		referencePoint);
 	var rotatedCircle = function (angle) {
 		return A3(_opensolid$svg$OpenSolid_Svg$rotateAround, referencePoint, angle, _opensolid$svg$DocumentationExamples$circle);
 	};
@@ -22084,7 +22075,14 @@ var _opensolid$svg$DocumentationExamples$rotated = function () {
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: referencePointSvg,
+			_0: A2(
+				_opensolid$svg$OpenSolid_Svg$point2d,
+				{
+					ctor: '::',
+					_0: _elm_lang$svg$Svg_Attributes$fill('black'),
+					_1: {ctor: '[]'}
+				},
+				referencePoint),
 			_1: A2(_elm_lang$core$List$map, rotatedCircle, angles)
 		});
 }();
@@ -22358,7 +22356,7 @@ var _opensolid$svg$DocumentationExamples$examples = {
 						_1: A3(
 							_opensolid$svg$DocumentationExamples$example,
 							{ctor: '_Tuple2', _0: 90, _1: 90},
-							{ctor: '_Tuple2', _0: 210, _1: 210},
+							{ctor: '_Tuple2', _0: 200, _1: 200},
 							_opensolid$svg$DocumentationExamples$points)
 					},
 					_1: {
@@ -22369,7 +22367,7 @@ var _opensolid$svg$DocumentationExamples$examples = {
 							_1: A3(
 								_opensolid$svg$DocumentationExamples$example,
 								{ctor: '_Tuple2', _0: 90, _1: 90},
-								{ctor: '_Tuple2', _0: 210, _1: 210},
+								{ctor: '_Tuple2', _0: 200, _1: 200},
 								_opensolid$svg$DocumentationExamples$customPoints)
 						},
 						_1: {
@@ -22403,7 +22401,7 @@ var _opensolid$svg$DocumentationExamples$examples = {
 											_opensolid$svg$DocumentationExamples$example,
 											{ctor: '_Tuple2', _0: 90, _1: 90},
 											{ctor: '_Tuple2', _0: 210, _1: 210},
-											_opensolid$svg$DocumentationExamples$tirangle)
+											_opensolid$svg$DocumentationExamples$triangle)
 									},
 									_1: {
 										ctor: '::',
