@@ -19777,29 +19777,18 @@ var _opensolid$geometry$Presets$greyFill = _elm_lang$svg$Svg_Attributes$fill('gr
 var _opensolid$geometry$Presets$whiteFill = _elm_lang$svg$Svg_Attributes$fill('white');
 var _opensolid$geometry$EllipticalArc2d_With1$main = _elm_lang$virtual_dom$Native_VirtualDom.staticProgram(
 	function () {
-		var xDirection = _opensolid$geometry$OpenSolid_Direction2d$fromAngle(
-			_elm_lang$core$Basics$degrees(10));
-		var centerPoint = _opensolid$geometry$OpenSolid_Point2d$origin;
-		var arc = A2(
-			_elm_lang$core$Debug$log,
-			'arc',
-			_opensolid$geometry$OpenSolid_EllipticalArc2d$with(
-				{
-					centerPoint: centerPoint,
-					xDirection: xDirection,
-					xRadius: 200,
-					yRadius: 100,
-					startAngle: _elm_lang$core$Basics$degrees(15),
-					sweptAngle: _elm_lang$core$Basics$degrees(60)
-				}));
 		var bounds = _opensolid$geometry$OpenSolid_BoundingBox2d$with(
+			{minX: -10, maxX: 210, minY: -10, maxY: 110});
+		var xDirection = _opensolid$geometry$OpenSolid_Direction2d$x;
+		var centerPoint = _opensolid$geometry$OpenSolid_Point2d$origin;
+		var arc = _opensolid$geometry$OpenSolid_EllipticalArc2d$with(
 			{
-				minX: -10,
-				maxX: _opensolid$geometry$OpenSolid_Point2d$xCoordinate(
-					_opensolid$geometry$OpenSolid_EllipticalArc2d$startPoint(arc)) + 10,
-				minY: -10,
-				maxY: _opensolid$geometry$OpenSolid_Point2d$yCoordinate(
-					_opensolid$geometry$OpenSolid_EllipticalArc2d$endPoint(arc)) + 10
+				centerPoint: centerPoint,
+				xDirection: xDirection,
+				xRadius: 200,
+				yRadius: 100,
+				startAngle: 0,
+				sweptAngle: _elm_lang$core$Basics$degrees(90)
 			});
 		var svg = A2(
 			_elm_lang$svg$Svg$g,
