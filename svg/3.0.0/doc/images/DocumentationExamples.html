@@ -13022,255 +13022,6 @@ var _opensolid$svg$OpenSolid_Ellipse2d$with = function (_p9) {
 			yRadius: _elm_lang$core$Basics$abs(_p10.yRadius)
 		});
 };
-var _opensolid$svg$OpenSolid_Triangle2d$vertices = function (_p0) {
-	var _p1 = _p0;
-	return _p1._0;
-};
-var _opensolid$svg$OpenSolid_Triangle2d$edges = function (triangle) {
-	var _p2 = _opensolid$svg$OpenSolid_Triangle2d$vertices(triangle);
-	var p1 = _p2._0;
-	var p2 = _p2._1;
-	var p3 = _p2._2;
-	return {
-		ctor: '_Tuple3',
-		_0: _opensolid$svg$OpenSolid_LineSegment2d$fromEndpoints(
-			{ctor: '_Tuple2', _0: p1, _1: p2}),
-		_1: _opensolid$svg$OpenSolid_LineSegment2d$fromEndpoints(
-			{ctor: '_Tuple2', _0: p2, _1: p3}),
-		_2: _opensolid$svg$OpenSolid_LineSegment2d$fromEndpoints(
-			{ctor: '_Tuple2', _0: p3, _1: p1})
-	};
-};
-var _opensolid$svg$OpenSolid_Triangle2d$centroid = function (triangle) {
-	var _p3 = _opensolid$svg$OpenSolid_Triangle2d$vertices(triangle);
-	var p1 = _p3._0;
-	var p2 = _p3._1;
-	var p3 = _p3._2;
-	var firstVector = A2(_opensolid$svg$OpenSolid_Vector2d$from, p1, p2);
-	var secondVector = A2(_opensolid$svg$OpenSolid_Vector2d$from, p1, p3);
-	var displacement = A2(
-		_opensolid$svg$OpenSolid_Vector2d$scaleBy,
-		1.0 / 3.0,
-		A2(_opensolid$svg$OpenSolid_Vector2d$sum, firstVector, secondVector));
-	return A2(_opensolid$svg$OpenSolid_Point2d$translateBy, displacement, p1);
-};
-var _opensolid$svg$OpenSolid_Triangle2d$contains = F2(
-	function (point, triangle) {
-		var crossProduct = F2(
-			function (startVertex, endVertex) {
-				var segmentVector = A2(_opensolid$svg$OpenSolid_Vector2d$from, startVertex, endVertex);
-				var vectorToPoint = A2(_opensolid$svg$OpenSolid_Vector2d$from, startVertex, point);
-				return A2(_opensolid$svg$OpenSolid_Vector2d$crossProduct, segmentVector, vectorToPoint);
-			});
-		var _p4 = _opensolid$svg$OpenSolid_Triangle2d$vertices(triangle);
-		var p1 = _p4._0;
-		var p2 = _p4._1;
-		var p3 = _p4._2;
-		var firstProduct = A2(crossProduct, p1, p2);
-		var secondProduct = A2(crossProduct, p2, p3);
-		var thirdProduct = A2(crossProduct, p3, p1);
-		return ((_elm_lang$core$Native_Utils.cmp(firstProduct, 0) > -1) && ((_elm_lang$core$Native_Utils.cmp(secondProduct, 0) > -1) && (_elm_lang$core$Native_Utils.cmp(thirdProduct, 0) > -1))) || ((_elm_lang$core$Native_Utils.cmp(firstProduct, 0) < 1) && ((_elm_lang$core$Native_Utils.cmp(secondProduct, 0) < 1) && (_elm_lang$core$Native_Utils.cmp(thirdProduct, 0) < 1)));
-	});
-var _opensolid$svg$OpenSolid_Triangle2d$counterclockwiseArea = function (triangle) {
-	var _p5 = _opensolid$svg$OpenSolid_Triangle2d$vertices(triangle);
-	var p1 = _p5._0;
-	var p2 = _p5._1;
-	var p3 = _p5._2;
-	var firstVector = A2(_opensolid$svg$OpenSolid_Vector2d$from, p1, p2);
-	var secondVector = A2(_opensolid$svg$OpenSolid_Vector2d$from, p1, p3);
-	return 0.5 * A2(_opensolid$svg$OpenSolid_Vector2d$crossProduct, firstVector, secondVector);
-};
-var _opensolid$svg$OpenSolid_Triangle2d$area = function (_p6) {
-	return _elm_lang$core$Basics$abs(
-		_opensolid$svg$OpenSolid_Triangle2d$counterclockwiseArea(_p6));
-};
-var _opensolid$svg$OpenSolid_Triangle2d$clockwiseArea = function (triangle) {
-	return 0 - _opensolid$svg$OpenSolid_Triangle2d$counterclockwiseArea(triangle);
-};
-var _opensolid$svg$OpenSolid_Triangle2d$boundingBox = function (triangle) {
-	var _p7 = _opensolid$svg$OpenSolid_Triangle2d$vertices(triangle);
-	var p1 = _p7._0;
-	var p2 = _p7._1;
-	var p3 = _p7._2;
-	var _p8 = _opensolid$svg$OpenSolid_Point2d$coordinates(p1);
-	var x1 = _p8._0;
-	var y1 = _p8._1;
-	var _p9 = _opensolid$svg$OpenSolid_Point2d$coordinates(p2);
-	var x2 = _p9._0;
-	var y2 = _p9._1;
-	var _p10 = _opensolid$svg$OpenSolid_Point2d$coordinates(p3);
-	var x3 = _p10._0;
-	var y3 = _p10._1;
-	return _opensolid$svg$OpenSolid_BoundingBox2d$with(
-		{
-			minX: A2(
-				_elm_lang$core$Basics$min,
-				x1,
-				A2(_elm_lang$core$Basics$min, x2, x3)),
-			maxX: A2(
-				_elm_lang$core$Basics$max,
-				x1,
-				A2(_elm_lang$core$Basics$max, x2, x3)),
-			minY: A2(
-				_elm_lang$core$Basics$min,
-				y1,
-				A2(_elm_lang$core$Basics$min, y2, y3)),
-			maxY: A2(
-				_elm_lang$core$Basics$max,
-				y1,
-				A2(_elm_lang$core$Basics$max, y2, y3))
-		});
-};
-var _opensolid$svg$OpenSolid_Triangle2d$circumcircle = function (triangle) {
-	return _opensolid$svg$OpenSolid_Circle2d$throughPoints(
-		_opensolid$svg$OpenSolid_Triangle2d$vertices(triangle));
-};
-var _opensolid$svg$OpenSolid_Triangle2d$fromVertices = _opensolid$svg$OpenSolid_Geometry_Internal$Triangle2d;
-var _opensolid$svg$OpenSolid_Triangle2d$mapVertices = F2(
-	function ($function, triangle) {
-		var _p11 = _opensolid$svg$OpenSolid_Triangle2d$vertices(triangle);
-		var p1 = _p11._0;
-		var p2 = _p11._1;
-		var p3 = _p11._2;
-		return _opensolid$svg$OpenSolid_Triangle2d$fromVertices(
-			{
-				ctor: '_Tuple3',
-				_0: $function(p1),
-				_1: $function(p2),
-				_2: $function(p3)
-			});
-	});
-var _opensolid$svg$OpenSolid_Triangle2d$scaleAbout = F2(
-	function (point, scale) {
-		return _opensolid$svg$OpenSolid_Triangle2d$mapVertices(
-			A2(_opensolid$svg$OpenSolid_Point2d$scaleAbout, point, scale));
-	});
-var _opensolid$svg$OpenSolid_Triangle2d$rotateAround = F2(
-	function (centerPoint, angle) {
-		return _opensolid$svg$OpenSolid_Triangle2d$mapVertices(
-			A2(_opensolid$svg$OpenSolid_Point2d$rotateAround, centerPoint, angle));
-	});
-var _opensolid$svg$OpenSolid_Triangle2d$translateBy = function (vector) {
-	return _opensolid$svg$OpenSolid_Triangle2d$mapVertices(
-		_opensolid$svg$OpenSolid_Point2d$translateBy(vector));
-};
-var _opensolid$svg$OpenSolid_Triangle2d$mirrorAcross = function (axis) {
-	return _opensolid$svg$OpenSolid_Triangle2d$mapVertices(
-		_opensolid$svg$OpenSolid_Point2d$mirrorAcross(axis));
-};
-var _opensolid$svg$OpenSolid_Triangle2d$relativeTo = function (frame) {
-	return _opensolid$svg$OpenSolid_Triangle2d$mapVertices(
-		_opensolid$svg$OpenSolid_Point2d$relativeTo(frame));
-};
-var _opensolid$svg$OpenSolid_Triangle2d$placeIn = function (frame) {
-	return _opensolid$svg$OpenSolid_Triangle2d$mapVertices(
-		_opensolid$svg$OpenSolid_Point2d$placeIn(frame));
-};
-var _opensolid$svg$OpenSolid_Polygon2d$vertices = function (_p0) {
-	var _p1 = _p0;
-	return _p1._0;
-};
-var _opensolid$svg$OpenSolid_Polygon2d$edges = function (polygon) {
-	var _p2 = _opensolid$svg$OpenSolid_Polygon2d$vertices(polygon);
-	if (_p2.ctor === '[]') {
-		return {ctor: '[]'};
-	} else {
-		return A3(
-			_elm_lang$core$List$map2,
-			_opensolid$svg$OpenSolid_LineSegment2d$from,
-			_p2,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_p2._1,
-				{
-					ctor: '::',
-					_0: _p2._0,
-					_1: {ctor: '[]'}
-				}));
-	}
-};
-var _opensolid$svg$OpenSolid_Polygon2d$perimeter = function (_p3) {
-	return _elm_lang$core$List$sum(
-		A2(
-			_elm_lang$core$List$map,
-			_opensolid$svg$OpenSolid_LineSegment2d$length,
-			_opensolid$svg$OpenSolid_Polygon2d$edges(_p3)));
-};
-var _opensolid$svg$OpenSolid_Polygon2d$counterclockwiseArea = function (polygon) {
-	var _p4 = _opensolid$svg$OpenSolid_Polygon2d$vertices(polygon);
-	if (_p4.ctor === '[]') {
-		return 0;
-	} else {
-		if (_p4._1.ctor === '[]') {
-			return 0;
-		} else {
-			if (_p4._1._1.ctor === '[]') {
-				return 0;
-			} else {
-				var _p5 = _p4._1._1;
-				var segmentArea = F2(
-					function (start, end) {
-						return _opensolid$svg$OpenSolid_Triangle2d$counterclockwiseArea(
-							_opensolid$svg$OpenSolid_Triangle2d$fromVertices(
-								{ctor: '_Tuple3', _0: _p4._0, _1: start, _2: end}));
-					});
-				var segmentAreas = A3(
-					_elm_lang$core$List$map2,
-					segmentArea,
-					{ctor: '::', _0: _p4._1._0, _1: _p5},
-					_p5);
-				return _elm_lang$core$List$sum(segmentAreas);
-			}
-		}
-	}
-};
-var _opensolid$svg$OpenSolid_Polygon2d$area = function (_p6) {
-	return _elm_lang$core$Basics$abs(
-		_opensolid$svg$OpenSolid_Polygon2d$counterclockwiseArea(_p6));
-};
-var _opensolid$svg$OpenSolid_Polygon2d$clockwiseArea = function (polygon) {
-	return 0 - _opensolid$svg$OpenSolid_Polygon2d$counterclockwiseArea(polygon);
-};
-var _opensolid$svg$OpenSolid_Polygon2d$boundingBox = function (polygon) {
-	return _opensolid$svg$OpenSolid_Point2d$hullOf(
-		_opensolid$svg$OpenSolid_Polygon2d$vertices(polygon));
-};
-var _opensolid$svg$OpenSolid_Polygon2d$fromVertices = _opensolid$svg$OpenSolid_Geometry_Internal$Polygon2d;
-var _opensolid$svg$OpenSolid_Polygon2d$mapVertices = function ($function) {
-	return function (_p7) {
-		return _opensolid$svg$OpenSolid_Polygon2d$fromVertices(
-			A2(
-				_elm_lang$core$List$map,
-				$function,
-				_opensolid$svg$OpenSolid_Polygon2d$vertices(_p7)));
-	};
-};
-var _opensolid$svg$OpenSolid_Polygon2d$scaleAbout = F2(
-	function (point, scale) {
-		return _opensolid$svg$OpenSolid_Polygon2d$mapVertices(
-			A2(_opensolid$svg$OpenSolid_Point2d$scaleAbout, point, scale));
-	});
-var _opensolid$svg$OpenSolid_Polygon2d$rotateAround = F2(
-	function (point, angle) {
-		return _opensolid$svg$OpenSolid_Polygon2d$mapVertices(
-			A2(_opensolid$svg$OpenSolid_Point2d$rotateAround, point, angle));
-	});
-var _opensolid$svg$OpenSolid_Polygon2d$translateBy = function (vector) {
-	return _opensolid$svg$OpenSolid_Polygon2d$mapVertices(
-		_opensolid$svg$OpenSolid_Point2d$translateBy(vector));
-};
-var _opensolid$svg$OpenSolid_Polygon2d$mirrorAcross = function (axis) {
-	return _opensolid$svg$OpenSolid_Polygon2d$mapVertices(
-		_opensolid$svg$OpenSolid_Point2d$mirrorAcross(axis));
-};
-var _opensolid$svg$OpenSolid_Polygon2d$relativeTo = function (frame) {
-	return _opensolid$svg$OpenSolid_Polygon2d$mapVertices(
-		_opensolid$svg$OpenSolid_Point2d$relativeTo(frame));
-};
-var _opensolid$svg$OpenSolid_Polygon2d$placeIn = function (frame) {
-	return _opensolid$svg$OpenSolid_Polygon2d$mapVertices(
-		_opensolid$svg$OpenSolid_Point2d$placeIn(frame));
-};
 var _opensolid$svg$OpenSolid_Interval$cosIncludesMax = function (_p0) {
 	var _p1 = _p0;
 	var maxBranch = _elm_lang$core$Basics$floor(_p1._0.maxValue / (2 * _elm_lang$core$Basics$pi));
@@ -13740,6 +13491,255 @@ var _opensolid$svg$OpenSolid_EllipticalArc2d$arcLengthParameterized = F2(
 			});
 		return A2(_opensolid$svg$OpenSolid_EllipticalArc2d$ArcLengthParameterized, arc, parameterization);
 	});
+var _opensolid$svg$OpenSolid_Triangle2d$vertices = function (_p0) {
+	var _p1 = _p0;
+	return _p1._0;
+};
+var _opensolid$svg$OpenSolid_Triangle2d$edges = function (triangle) {
+	var _p2 = _opensolid$svg$OpenSolid_Triangle2d$vertices(triangle);
+	var p1 = _p2._0;
+	var p2 = _p2._1;
+	var p3 = _p2._2;
+	return {
+		ctor: '_Tuple3',
+		_0: _opensolid$svg$OpenSolid_LineSegment2d$fromEndpoints(
+			{ctor: '_Tuple2', _0: p1, _1: p2}),
+		_1: _opensolid$svg$OpenSolid_LineSegment2d$fromEndpoints(
+			{ctor: '_Tuple2', _0: p2, _1: p3}),
+		_2: _opensolid$svg$OpenSolid_LineSegment2d$fromEndpoints(
+			{ctor: '_Tuple2', _0: p3, _1: p1})
+	};
+};
+var _opensolid$svg$OpenSolid_Triangle2d$centroid = function (triangle) {
+	var _p3 = _opensolid$svg$OpenSolid_Triangle2d$vertices(triangle);
+	var p1 = _p3._0;
+	var p2 = _p3._1;
+	var p3 = _p3._2;
+	var firstVector = A2(_opensolid$svg$OpenSolid_Vector2d$from, p1, p2);
+	var secondVector = A2(_opensolid$svg$OpenSolid_Vector2d$from, p1, p3);
+	var displacement = A2(
+		_opensolid$svg$OpenSolid_Vector2d$scaleBy,
+		1.0 / 3.0,
+		A2(_opensolid$svg$OpenSolid_Vector2d$sum, firstVector, secondVector));
+	return A2(_opensolid$svg$OpenSolid_Point2d$translateBy, displacement, p1);
+};
+var _opensolid$svg$OpenSolid_Triangle2d$contains = F2(
+	function (point, triangle) {
+		var crossProduct = F2(
+			function (startVertex, endVertex) {
+				var segmentVector = A2(_opensolid$svg$OpenSolid_Vector2d$from, startVertex, endVertex);
+				var vectorToPoint = A2(_opensolid$svg$OpenSolid_Vector2d$from, startVertex, point);
+				return A2(_opensolid$svg$OpenSolid_Vector2d$crossProduct, segmentVector, vectorToPoint);
+			});
+		var _p4 = _opensolid$svg$OpenSolid_Triangle2d$vertices(triangle);
+		var p1 = _p4._0;
+		var p2 = _p4._1;
+		var p3 = _p4._2;
+		var firstProduct = A2(crossProduct, p1, p2);
+		var secondProduct = A2(crossProduct, p2, p3);
+		var thirdProduct = A2(crossProduct, p3, p1);
+		return ((_elm_lang$core$Native_Utils.cmp(firstProduct, 0) > -1) && ((_elm_lang$core$Native_Utils.cmp(secondProduct, 0) > -1) && (_elm_lang$core$Native_Utils.cmp(thirdProduct, 0) > -1))) || ((_elm_lang$core$Native_Utils.cmp(firstProduct, 0) < 1) && ((_elm_lang$core$Native_Utils.cmp(secondProduct, 0) < 1) && (_elm_lang$core$Native_Utils.cmp(thirdProduct, 0) < 1)));
+	});
+var _opensolid$svg$OpenSolid_Triangle2d$counterclockwiseArea = function (triangle) {
+	var _p5 = _opensolid$svg$OpenSolid_Triangle2d$vertices(triangle);
+	var p1 = _p5._0;
+	var p2 = _p5._1;
+	var p3 = _p5._2;
+	var firstVector = A2(_opensolid$svg$OpenSolid_Vector2d$from, p1, p2);
+	var secondVector = A2(_opensolid$svg$OpenSolid_Vector2d$from, p1, p3);
+	return 0.5 * A2(_opensolid$svg$OpenSolid_Vector2d$crossProduct, firstVector, secondVector);
+};
+var _opensolid$svg$OpenSolid_Triangle2d$area = function (_p6) {
+	return _elm_lang$core$Basics$abs(
+		_opensolid$svg$OpenSolid_Triangle2d$counterclockwiseArea(_p6));
+};
+var _opensolid$svg$OpenSolid_Triangle2d$clockwiseArea = function (triangle) {
+	return 0 - _opensolid$svg$OpenSolid_Triangle2d$counterclockwiseArea(triangle);
+};
+var _opensolid$svg$OpenSolid_Triangle2d$boundingBox = function (triangle) {
+	var _p7 = _opensolid$svg$OpenSolid_Triangle2d$vertices(triangle);
+	var p1 = _p7._0;
+	var p2 = _p7._1;
+	var p3 = _p7._2;
+	var _p8 = _opensolid$svg$OpenSolid_Point2d$coordinates(p1);
+	var x1 = _p8._0;
+	var y1 = _p8._1;
+	var _p9 = _opensolid$svg$OpenSolid_Point2d$coordinates(p2);
+	var x2 = _p9._0;
+	var y2 = _p9._1;
+	var _p10 = _opensolid$svg$OpenSolid_Point2d$coordinates(p3);
+	var x3 = _p10._0;
+	var y3 = _p10._1;
+	return _opensolid$svg$OpenSolid_BoundingBox2d$with(
+		{
+			minX: A2(
+				_elm_lang$core$Basics$min,
+				x1,
+				A2(_elm_lang$core$Basics$min, x2, x3)),
+			maxX: A2(
+				_elm_lang$core$Basics$max,
+				x1,
+				A2(_elm_lang$core$Basics$max, x2, x3)),
+			minY: A2(
+				_elm_lang$core$Basics$min,
+				y1,
+				A2(_elm_lang$core$Basics$min, y2, y3)),
+			maxY: A2(
+				_elm_lang$core$Basics$max,
+				y1,
+				A2(_elm_lang$core$Basics$max, y2, y3))
+		});
+};
+var _opensolid$svg$OpenSolid_Triangle2d$circumcircle = function (triangle) {
+	return _opensolid$svg$OpenSolid_Circle2d$throughPoints(
+		_opensolid$svg$OpenSolid_Triangle2d$vertices(triangle));
+};
+var _opensolid$svg$OpenSolid_Triangle2d$fromVertices = _opensolid$svg$OpenSolid_Geometry_Internal$Triangle2d;
+var _opensolid$svg$OpenSolid_Triangle2d$mapVertices = F2(
+	function ($function, triangle) {
+		var _p11 = _opensolid$svg$OpenSolid_Triangle2d$vertices(triangle);
+		var p1 = _p11._0;
+		var p2 = _p11._1;
+		var p3 = _p11._2;
+		return _opensolid$svg$OpenSolid_Triangle2d$fromVertices(
+			{
+				ctor: '_Tuple3',
+				_0: $function(p1),
+				_1: $function(p2),
+				_2: $function(p3)
+			});
+	});
+var _opensolid$svg$OpenSolid_Triangle2d$scaleAbout = F2(
+	function (point, scale) {
+		return _opensolid$svg$OpenSolid_Triangle2d$mapVertices(
+			A2(_opensolid$svg$OpenSolid_Point2d$scaleAbout, point, scale));
+	});
+var _opensolid$svg$OpenSolid_Triangle2d$rotateAround = F2(
+	function (centerPoint, angle) {
+		return _opensolid$svg$OpenSolid_Triangle2d$mapVertices(
+			A2(_opensolid$svg$OpenSolid_Point2d$rotateAround, centerPoint, angle));
+	});
+var _opensolid$svg$OpenSolid_Triangle2d$translateBy = function (vector) {
+	return _opensolid$svg$OpenSolid_Triangle2d$mapVertices(
+		_opensolid$svg$OpenSolid_Point2d$translateBy(vector));
+};
+var _opensolid$svg$OpenSolid_Triangle2d$mirrorAcross = function (axis) {
+	return _opensolid$svg$OpenSolid_Triangle2d$mapVertices(
+		_opensolid$svg$OpenSolid_Point2d$mirrorAcross(axis));
+};
+var _opensolid$svg$OpenSolid_Triangle2d$relativeTo = function (frame) {
+	return _opensolid$svg$OpenSolid_Triangle2d$mapVertices(
+		_opensolid$svg$OpenSolid_Point2d$relativeTo(frame));
+};
+var _opensolid$svg$OpenSolid_Triangle2d$placeIn = function (frame) {
+	return _opensolid$svg$OpenSolid_Triangle2d$mapVertices(
+		_opensolid$svg$OpenSolid_Point2d$placeIn(frame));
+};
+var _opensolid$svg$OpenSolid_Polygon2d$vertices = function (_p0) {
+	var _p1 = _p0;
+	return _p1._0;
+};
+var _opensolid$svg$OpenSolid_Polygon2d$edges = function (polygon) {
+	var _p2 = _opensolid$svg$OpenSolid_Polygon2d$vertices(polygon);
+	if (_p2.ctor === '[]') {
+		return {ctor: '[]'};
+	} else {
+		return A3(
+			_elm_lang$core$List$map2,
+			_opensolid$svg$OpenSolid_LineSegment2d$from,
+			_p2,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_p2._1,
+				{
+					ctor: '::',
+					_0: _p2._0,
+					_1: {ctor: '[]'}
+				}));
+	}
+};
+var _opensolid$svg$OpenSolid_Polygon2d$perimeter = function (_p3) {
+	return _elm_lang$core$List$sum(
+		A2(
+			_elm_lang$core$List$map,
+			_opensolid$svg$OpenSolid_LineSegment2d$length,
+			_opensolid$svg$OpenSolid_Polygon2d$edges(_p3)));
+};
+var _opensolid$svg$OpenSolid_Polygon2d$counterclockwiseArea = function (polygon) {
+	var _p4 = _opensolid$svg$OpenSolid_Polygon2d$vertices(polygon);
+	if (_p4.ctor === '[]') {
+		return 0;
+	} else {
+		if (_p4._1.ctor === '[]') {
+			return 0;
+		} else {
+			if (_p4._1._1.ctor === '[]') {
+				return 0;
+			} else {
+				var _p5 = _p4._1._1;
+				var segmentArea = F2(
+					function (start, end) {
+						return _opensolid$svg$OpenSolid_Triangle2d$counterclockwiseArea(
+							_opensolid$svg$OpenSolid_Triangle2d$fromVertices(
+								{ctor: '_Tuple3', _0: _p4._0, _1: start, _2: end}));
+					});
+				var segmentAreas = A3(
+					_elm_lang$core$List$map2,
+					segmentArea,
+					{ctor: '::', _0: _p4._1._0, _1: _p5},
+					_p5);
+				return _elm_lang$core$List$sum(segmentAreas);
+			}
+		}
+	}
+};
+var _opensolid$svg$OpenSolid_Polygon2d$area = function (_p6) {
+	return _elm_lang$core$Basics$abs(
+		_opensolid$svg$OpenSolid_Polygon2d$counterclockwiseArea(_p6));
+};
+var _opensolid$svg$OpenSolid_Polygon2d$clockwiseArea = function (polygon) {
+	return 0 - _opensolid$svg$OpenSolid_Polygon2d$counterclockwiseArea(polygon);
+};
+var _opensolid$svg$OpenSolid_Polygon2d$boundingBox = function (polygon) {
+	return _opensolid$svg$OpenSolid_Point2d$hullOf(
+		_opensolid$svg$OpenSolid_Polygon2d$vertices(polygon));
+};
+var _opensolid$svg$OpenSolid_Polygon2d$fromVertices = _opensolid$svg$OpenSolid_Geometry_Internal$Polygon2d;
+var _opensolid$svg$OpenSolid_Polygon2d$mapVertices = function ($function) {
+	return function (_p7) {
+		return _opensolid$svg$OpenSolid_Polygon2d$fromVertices(
+			A2(
+				_elm_lang$core$List$map,
+				$function,
+				_opensolid$svg$OpenSolid_Polygon2d$vertices(_p7)));
+	};
+};
+var _opensolid$svg$OpenSolid_Polygon2d$scaleAbout = F2(
+	function (point, scale) {
+		return _opensolid$svg$OpenSolid_Polygon2d$mapVertices(
+			A2(_opensolid$svg$OpenSolid_Point2d$scaleAbout, point, scale));
+	});
+var _opensolid$svg$OpenSolid_Polygon2d$rotateAround = F2(
+	function (point, angle) {
+		return _opensolid$svg$OpenSolid_Polygon2d$mapVertices(
+			A2(_opensolid$svg$OpenSolid_Point2d$rotateAround, point, angle));
+	});
+var _opensolid$svg$OpenSolid_Polygon2d$translateBy = function (vector) {
+	return _opensolid$svg$OpenSolid_Polygon2d$mapVertices(
+		_opensolid$svg$OpenSolid_Point2d$translateBy(vector));
+};
+var _opensolid$svg$OpenSolid_Polygon2d$mirrorAcross = function (axis) {
+	return _opensolid$svg$OpenSolid_Polygon2d$mapVertices(
+		_opensolid$svg$OpenSolid_Point2d$mirrorAcross(axis));
+};
+var _opensolid$svg$OpenSolid_Polygon2d$relativeTo = function (frame) {
+	return _opensolid$svg$OpenSolid_Polygon2d$mapVertices(
+		_opensolid$svg$OpenSolid_Point2d$relativeTo(frame));
+};
+var _opensolid$svg$OpenSolid_Polygon2d$placeIn = function (frame) {
+	return _opensolid$svg$OpenSolid_Polygon2d$mapVertices(
+		_opensolid$svg$OpenSolid_Point2d$placeIn(frame));
+};
 var _opensolid$svg$OpenSolid_Svg_Internal$tip = F4(
 	function (_p0, basePoint, length, direction) {
 		var _p1 = _p0;
@@ -14908,6 +14908,31 @@ var _opensolid$svg$DocumentationExamples$quadraticSpline = function () {
 			}
 		});
 }();
+var _opensolid$svg$DocumentationExamples$ellipticalArc = A2(
+	_opensolid$svg$OpenSolid_Svg$ellipticalArc2d,
+	{
+		ctor: '::',
+		_0: _elm_lang$svg$Svg_Attributes$stroke('blue'),
+		_1: {
+			ctor: '::',
+			_0: _elm_lang$svg$Svg_Attributes$fill('none'),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$svg$Svg_Attributes$strokeWidth('2'),
+				_1: {ctor: '[]'}
+			}
+		}
+	},
+	_opensolid$svg$OpenSolid_EllipticalArc2d$with(
+		{
+			centerPoint: _opensolid$svg$OpenSolid_Point2d$fromCoordinates(
+				{ctor: '_Tuple2', _0: 100, _1: 10}),
+			xDirection: _opensolid$svg$OpenSolid_Direction2d$x,
+			xRadius: 50,
+			yRadius: 100,
+			startAngle: 0,
+			sweptAngle: _elm_lang$core$Basics$degrees(180)
+		}));
 var _opensolid$svg$DocumentationExamples$arc = A2(
 	_opensolid$svg$OpenSolid_Svg$arc2d,
 	{
@@ -15638,91 +15663,103 @@ var _opensolid$svg$DocumentationExamples$examples = {
 														ctor: '::',
 														_0: {
 															ctor: '_Tuple2',
-															_0: 'quadraticSpline',
+															_0: 'ellipticalArc',
 															_1: A3(
 																_opensolid$svg$DocumentationExamples$example,
-																{ctor: '_Tuple2', _0: 35, _1: 35},
-																{ctor: '_Tuple2', _0: 165, _1: 165},
-																_opensolid$svg$DocumentationExamples$quadraticSpline)
+																{ctor: '_Tuple2', _0: 40, _1: 0},
+																{ctor: '_Tuple2', _0: 160, _1: 120},
+																_opensolid$svg$DocumentationExamples$ellipticalArc)
 														},
 														_1: {
 															ctor: '::',
 															_0: {
 																ctor: '_Tuple2',
-																_0: 'cubicSpline',
+																_0: 'quadraticSpline',
 																_1: A3(
 																	_opensolid$svg$DocumentationExamples$example,
-																	{ctor: '_Tuple2', _0: 30, _1: 5},
-																	{ctor: '_Tuple2', _0: 220, _1: 170},
-																	_opensolid$svg$DocumentationExamples$cubicSpline)
+																	{ctor: '_Tuple2', _0: 35, _1: 35},
+																	{ctor: '_Tuple2', _0: 165, _1: 165},
+																	_opensolid$svg$DocumentationExamples$quadraticSpline)
 															},
 															_1: {
 																ctor: '::',
 																_0: {
 																	ctor: '_Tuple2',
-																	_0: 'text',
+																	_0: 'cubicSpline',
 																	_1: A3(
 																		_opensolid$svg$DocumentationExamples$example,
-																		{ctor: '_Tuple2', _0: 90, _1: 90},
-																		{ctor: '_Tuple2', _0: 310, _1: 260},
-																		_opensolid$svg$DocumentationExamples$text)
+																		{ctor: '_Tuple2', _0: 30, _1: 5},
+																		{ctor: '_Tuple2', _0: 220, _1: 170},
+																		_opensolid$svg$DocumentationExamples$cubicSpline)
 																},
 																_1: {
 																	ctor: '::',
 																	_0: {
 																		ctor: '_Tuple2',
-																		_0: 'scaled',
+																		_0: 'text',
 																		_1: A3(
 																			_opensolid$svg$DocumentationExamples$example,
 																			{ctor: '_Tuple2', _0: 90, _1: 90},
-																			{ctor: '_Tuple2', _0: 250, _1: 250},
-																			_opensolid$svg$DocumentationExamples$scaled)
+																			{ctor: '_Tuple2', _0: 310, _1: 260},
+																			_opensolid$svg$DocumentationExamples$text)
 																	},
 																	_1: {
 																		ctor: '::',
 																		_0: {
 																			ctor: '_Tuple2',
-																			_0: 'rotated',
+																			_0: 'scaled',
 																			_1: A3(
 																				_opensolid$svg$DocumentationExamples$example,
-																				{ctor: '_Tuple2', _0: 130, _1: 80},
-																				{ctor: '_Tuple2', _0: 270, _1: 220},
-																				_opensolid$svg$DocumentationExamples$rotated)
+																				{ctor: '_Tuple2', _0: 90, _1: 90},
+																				{ctor: '_Tuple2', _0: 250, _1: 250},
+																				_opensolid$svg$DocumentationExamples$scaled)
 																		},
 																		_1: {
 																			ctor: '::',
 																			_0: {
 																				ctor: '_Tuple2',
-																				_0: 'translated',
+																				_0: 'rotated',
 																				_1: A3(
 																					_opensolid$svg$DocumentationExamples$example,
-																					{ctor: '_Tuple2', _0: 87, _1: 25},
-																					{ctor: '_Tuple2', _0: 215, _1: 255},
-																					_opensolid$svg$DocumentationExamples$translated)
+																					{ctor: '_Tuple2', _0: 130, _1: 80},
+																					{ctor: '_Tuple2', _0: 270, _1: 220},
+																					_opensolid$svg$DocumentationExamples$rotated)
 																			},
 																			_1: {
 																				ctor: '::',
 																				_0: {
 																					ctor: '_Tuple2',
-																					_0: 'mirrored',
+																					_0: 'translated',
 																					_1: A3(
 																						_opensolid$svg$DocumentationExamples$example,
-																						{ctor: '_Tuple2', _0: 35, _1: 20},
-																						{ctor: '_Tuple2', _0: 265, _1: 300},
-																						_opensolid$svg$DocumentationExamples$mirrored)
+																						{ctor: '_Tuple2', _0: 87, _1: 25},
+																						{ctor: '_Tuple2', _0: 215, _1: 255},
+																						_opensolid$svg$DocumentationExamples$translated)
 																				},
 																				_1: {
 																					ctor: '::',
 																					_0: {
 																						ctor: '_Tuple2',
-																						_0: 'placed',
+																						_0: 'mirrored',
 																						_1: A3(
 																							_opensolid$svg$DocumentationExamples$example,
-																							{ctor: '_Tuple2', _0: 10, _1: 10},
-																							{ctor: '_Tuple2', _0: 235, _1: 190},
-																							_opensolid$svg$DocumentationExamples$placed)
+																							{ctor: '_Tuple2', _0: 35, _1: 20},
+																							{ctor: '_Tuple2', _0: 265, _1: 300},
+																							_opensolid$svg$DocumentationExamples$mirrored)
 																					},
-																					_1: {ctor: '[]'}
+																					_1: {
+																						ctor: '::',
+																						_0: {
+																							ctor: '_Tuple2',
+																							_0: 'placed',
+																							_1: A3(
+																								_opensolid$svg$DocumentationExamples$example,
+																								{ctor: '_Tuple2', _0: 10, _1: 10},
+																								{ctor: '_Tuple2', _0: 235, _1: 190},
+																								_opensolid$svg$DocumentationExamples$placed)
+																						},
+																						_1: {ctor: '[]'}
+																					}
 																				}
 																			}
 																		}
