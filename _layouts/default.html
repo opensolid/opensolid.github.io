@@ -18,9 +18,11 @@
         <a href="{{ site.github.url }}"> <h1>{{ site.title | default: site.github.repository_name }}</h1> </a>
         <p>{{ site.description | default: site.github.project_tagline }}</p>
 
+        <p class="view">
         {% for repository in site.linked_repositories %}
-          <p class="view"><a href="https://github.com/opensolid/{{ repository }}">opensolid/{{ repository }}</a></p>
+          <a href="https://github.com/opensolid/{{ repository }}">opensolid/{{ repository }}</a><br>
         {% endfor %}
+        </p>
 
       </header>
       <section>
