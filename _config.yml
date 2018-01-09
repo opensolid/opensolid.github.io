@@ -2,3 +2,6 @@ theme: jekyll-theme-minimal
 title: OpenSolid
 description: 2D/3D geometry for Elm
 author: Ian Mackenzie
+linked_repositories:
+  - geometry
+  - svg
