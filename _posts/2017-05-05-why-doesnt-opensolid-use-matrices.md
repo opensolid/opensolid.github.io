@@ -11,7 +11,7 @@ tags: frame transformation matrix
 
 Some code:
 
-{% highlight haskell %}
+{% highlight elm %}
 module OpenSolid.LinearAlgebra.Point3d
     exposing
         ( toVec3
