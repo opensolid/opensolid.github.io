@@ -11,7 +11,7 @@ tags: frame transformation matrix
 
 Some code:
 
-{% highlight haskell %}
+```elm
 module OpenSolid.LinearAlgebra.Point3d
     exposing
         ( toVec3
@@ -49,4 +49,4 @@ transformBy matrix point =
             , m21 * x + m22 * y + m23 * z + m24
             , m31 * x + m32 * y + m33 * z + m34
             )
-{% endhighlight %}
+```
