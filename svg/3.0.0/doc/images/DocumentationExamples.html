@@ -15318,103 +15318,6 @@ var _opensolid$svg$DocumentationExamples$ellipse = A2(
 			xRadius: 80,
 			yRadius: 40
 		}));
-var _opensolid$svg$DocumentationExamples$examples = {
-	ctor: '::',
-	_0: {
-		ctor: '_Tuple2',
-		_0: 'ellipse',
-		_1: A3(
-			_opensolid$svg$DocumentationExamples$example,
-			{ctor: '_Tuple2', _0: 70, _1: 90},
-			{ctor: '_Tuple2', _0: 230, _1: 210},
-			_opensolid$svg$DocumentationExamples$ellipse)
-	},
-	_1: {ctor: '[]'}
-};
-var _opensolid$svg$DocumentationExamples$main = function () {
-	var view = function (model) {
-		var _p6 = model;
-		if (_p6.ctor === 'Just') {
-			return A2(_elm_lang$html$Html$map, _elm_lang$core$Basics$never, _p6._0);
-		} else {
-			var exampleItem = function (_p7) {
-				var _p8 = _p7;
-				var _p9 = _p8._0;
-				return A2(
-					_elm_lang$html$Html$li,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$a,
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$href(
-									A2(_elm_lang$core$Basics_ops['++'], '#', _p9)),
-								_1: {ctor: '[]'}
-							},
-							{
-								ctor: '::',
-								_0: _elm_lang$html$Html$text(_p9),
-								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					});
-			};
-			return A2(
-				_elm_lang$html$Html$div,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Please choose an example:'),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$ul,
-							{ctor: '[]'},
-							A2(_elm_lang$core$List$map, exampleItem, _opensolid$svg$DocumentationExamples$examples)),
-						_1: {ctor: '[]'}
-					}
-				});
-		}
-	};
-	var hashParser = _evancz$url_parser$UrlParser$oneOf(
-		A2(
-			_elm_lang$core$List$map,
-			function (_p10) {
-				var _p11 = _p10;
-				return A2(
-					_evancz$url_parser$UrlParser$map,
-					_p11._1,
-					_evancz$url_parser$UrlParser$s(_p11._0));
-			},
-			_opensolid$svg$DocumentationExamples$examples));
-	var parseLocation = _evancz$url_parser$UrlParser$parseHash(hashParser);
-	var init = function (location) {
-		return {
-			ctor: '_Tuple2',
-			_0: parseLocation(location),
-			_1: _elm_lang$core$Platform_Cmd$none
-		};
-	};
-	var update = F2(
-		function (location, model) {
-			return {
-				ctor: '_Tuple2',
-				_0: parseLocation(location),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
-		});
-	return A2(
-		_elm_lang$navigation$Navigation$program,
-		_elm_lang$core$Basics$identity,
-		{
-			init: init,
-			update: update,
-			view: view,
-			subscriptions: _elm_lang$core$Basics$always(_elm_lang$core$Platform_Sub$none)
-		});
-}()();
 var _opensolid$svg$DocumentationExamples$circle = A2(
 	_opensolid$svg$OpenSolid_Svg$circle2d,
 	{
@@ -15717,6 +15620,355 @@ var _opensolid$svg$DocumentationExamples$vector = A3(
 		{ctor: '_Tuple2', _0: 100, _1: 100}),
 	_opensolid$svg$OpenSolid_Vector2d$fromComponents(
 		{ctor: '_Tuple2', _0: 100, _1: 100}));
+var _opensolid$svg$DocumentationExamples$examples = {
+	ctor: '::',
+	_0: {
+		ctor: '_Tuple2',
+		_0: 'vector',
+		_1: A3(
+			_opensolid$svg$DocumentationExamples$example,
+			{ctor: '_Tuple2', _0: 90, _1: 90},
+			{ctor: '_Tuple2', _0: 210, _1: 210},
+			_opensolid$svg$DocumentationExamples$vector)
+	},
+	_1: {
+		ctor: '::',
+		_0: {
+			ctor: '_Tuple2',
+			_0: 'customVector',
+			_1: A3(
+				_opensolid$svg$DocumentationExamples$example,
+				{ctor: '_Tuple2', _0: 90, _1: 90},
+				{ctor: '_Tuple2', _0: 210, _1: 210},
+				_opensolid$svg$DocumentationExamples$customVector)
+		},
+		_1: {
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'directions',
+				_1: A3(
+					_opensolid$svg$DocumentationExamples$example,
+					{ctor: '_Tuple2', _0: 90, _1: 90},
+					{ctor: '_Tuple2', _0: 160, _1: 160},
+					_opensolid$svg$DocumentationExamples$directions)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'customDirections',
+					_1: A3(
+						_opensolid$svg$DocumentationExamples$example,
+						{ctor: '_Tuple2', _0: 90, _1: 90},
+						{ctor: '_Tuple2', _0: 210, _1: 210},
+						_opensolid$svg$DocumentationExamples$customDirections)
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'points',
+						_1: A3(
+							_opensolid$svg$DocumentationExamples$example,
+							{ctor: '_Tuple2', _0: 90, _1: 90},
+							{ctor: '_Tuple2', _0: 200, _1: 200},
+							_opensolid$svg$DocumentationExamples$points)
+					},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'customPoints',
+							_1: A3(
+								_opensolid$svg$DocumentationExamples$example,
+								{ctor: '_Tuple2', _0: 90, _1: 90},
+								{ctor: '_Tuple2', _0: 200, _1: 200},
+								_opensolid$svg$DocumentationExamples$customPoints)
+						},
+						_1: {
+							ctor: '::',
+							_0: {
+								ctor: '_Tuple2',
+								_0: 'circle',
+								_1: A3(
+									_opensolid$svg$DocumentationExamples$example,
+									{ctor: '_Tuple2', _0: 130, _1: 130},
+									{ctor: '_Tuple2', _0: 170, _1: 170},
+									_opensolid$svg$DocumentationExamples$circle)
+							},
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'ellipse',
+									_1: A3(
+										_opensolid$svg$DocumentationExamples$example,
+										{ctor: '_Tuple2', _0: 70, _1: 90},
+										{ctor: '_Tuple2', _0: 230, _1: 210},
+										_opensolid$svg$DocumentationExamples$ellipse)
+								},
+								_1: {
+									ctor: '::',
+									_0: {
+										ctor: '_Tuple2',
+										_0: 'lineSegment',
+										_1: A3(
+											_opensolid$svg$DocumentationExamples$example,
+											{ctor: '_Tuple2', _0: 90, _1: 90},
+											{ctor: '_Tuple2', _0: 210, _1: 210},
+											_opensolid$svg$DocumentationExamples$lineSegment)
+									},
+									_1: {
+										ctor: '::',
+										_0: {
+											ctor: '_Tuple2',
+											_0: 'triangle',
+											_1: A3(
+												_opensolid$svg$DocumentationExamples$example,
+												{ctor: '_Tuple2', _0: 90, _1: 90},
+												{ctor: '_Tuple2', _0: 210, _1: 210},
+												_opensolid$svg$DocumentationExamples$triangle)
+										},
+										_1: {
+											ctor: '::',
+											_0: {
+												ctor: '_Tuple2',
+												_0: 'polyline',
+												_1: A3(
+													_opensolid$svg$DocumentationExamples$example,
+													{ctor: '_Tuple2', _0: 90, _1: 90},
+													{ctor: '_Tuple2', _0: 210, _1: 210},
+													_opensolid$svg$DocumentationExamples$polyline)
+											},
+											_1: {
+												ctor: '::',
+												_0: {
+													ctor: '_Tuple2',
+													_0: 'polygon',
+													_1: A3(
+														_opensolid$svg$DocumentationExamples$example,
+														{ctor: '_Tuple2', _0: 90, _1: 140},
+														{ctor: '_Tuple2', _0: 210, _1: 210},
+														_opensolid$svg$DocumentationExamples$polygon)
+												},
+												_1: {
+													ctor: '::',
+													_0: {
+														ctor: '_Tuple2',
+														_0: 'arc',
+														_1: A3(
+															_opensolid$svg$DocumentationExamples$example,
+															{ctor: '_Tuple2', _0: 70, _1: 60},
+															{ctor: '_Tuple2', _0: 170, _1: 170},
+															_opensolid$svg$DocumentationExamples$arc)
+													},
+													_1: {
+														ctor: '::',
+														_0: {
+															ctor: '_Tuple2',
+															_0: 'ellipticalArc',
+															_1: A3(
+																_opensolid$svg$DocumentationExamples$example,
+																{ctor: '_Tuple2', _0: 40, _1: 0},
+																{ctor: '_Tuple2', _0: 160, _1: 120},
+																_opensolid$svg$DocumentationExamples$ellipticalArc)
+														},
+														_1: {
+															ctor: '::',
+															_0: {
+																ctor: '_Tuple2',
+																_0: 'quadraticSpline',
+																_1: A3(
+																	_opensolid$svg$DocumentationExamples$example,
+																	{ctor: '_Tuple2', _0: 35, _1: 35},
+																	{ctor: '_Tuple2', _0: 165, _1: 165},
+																	_opensolid$svg$DocumentationExamples$quadraticSpline)
+															},
+															_1: {
+																ctor: '::',
+																_0: {
+																	ctor: '_Tuple2',
+																	_0: 'cubicSpline',
+																	_1: A3(
+																		_opensolid$svg$DocumentationExamples$example,
+																		{ctor: '_Tuple2', _0: 30, _1: 5},
+																		{ctor: '_Tuple2', _0: 220, _1: 170},
+																		_opensolid$svg$DocumentationExamples$cubicSpline)
+																},
+																_1: {
+																	ctor: '::',
+																	_0: {
+																		ctor: '_Tuple2',
+																		_0: 'text',
+																		_1: A3(
+																			_opensolid$svg$DocumentationExamples$example,
+																			{ctor: '_Tuple2', _0: 90, _1: 90},
+																			{ctor: '_Tuple2', _0: 310, _1: 260},
+																			_opensolid$svg$DocumentationExamples$text)
+																	},
+																	_1: {
+																		ctor: '::',
+																		_0: {
+																			ctor: '_Tuple2',
+																			_0: 'scaled',
+																			_1: A3(
+																				_opensolid$svg$DocumentationExamples$example,
+																				{ctor: '_Tuple2', _0: 90, _1: 90},
+																				{ctor: '_Tuple2', _0: 250, _1: 250},
+																				_opensolid$svg$DocumentationExamples$scaled)
+																		},
+																		_1: {
+																			ctor: '::',
+																			_0: {
+																				ctor: '_Tuple2',
+																				_0: 'rotated',
+																				_1: A3(
+																					_opensolid$svg$DocumentationExamples$example,
+																					{ctor: '_Tuple2', _0: 130, _1: 80},
+																					{ctor: '_Tuple2', _0: 270, _1: 220},
+																					_opensolid$svg$DocumentationExamples$rotated)
+																			},
+																			_1: {
+																				ctor: '::',
+																				_0: {
+																					ctor: '_Tuple2',
+																					_0: 'translated',
+																					_1: A3(
+																						_opensolid$svg$DocumentationExamples$example,
+																						{ctor: '_Tuple2', _0: 87, _1: 25},
+																						{ctor: '_Tuple2', _0: 215, _1: 255},
+																						_opensolid$svg$DocumentationExamples$translated)
+																				},
+																				_1: {
+																					ctor: '::',
+																					_0: {
+																						ctor: '_Tuple2',
+																						_0: 'mirrored',
+																						_1: A3(
+																							_opensolid$svg$DocumentationExamples$example,
+																							{ctor: '_Tuple2', _0: 35, _1: 20},
+																							{ctor: '_Tuple2', _0: 265, _1: 300},
+																							_opensolid$svg$DocumentationExamples$mirrored)
+																					},
+																					_1: {
+																						ctor: '::',
+																						_0: {
+																							ctor: '_Tuple2',
+																							_0: 'placed',
+																							_1: A3(
+																								_opensolid$svg$DocumentationExamples$example,
+																								{ctor: '_Tuple2', _0: 10, _1: 10},
+																								{ctor: '_Tuple2', _0: 235, _1: 190},
+																								_opensolid$svg$DocumentationExamples$placed)
+																						},
+																						_1: {ctor: '[]'}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+};
+var _opensolid$svg$DocumentationExamples$main = function () {
+	var view = function (model) {
+		var _p6 = model;
+		if (_p6.ctor === 'Just') {
+			return A2(_elm_lang$html$Html$map, _elm_lang$core$Basics$never, _p6._0);
+		} else {
+			var exampleItem = function (_p7) {
+				var _p8 = _p7;
+				var _p9 = _p8._0;
+				return A2(
+					_elm_lang$html$Html$li,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$a,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$href(
+									A2(_elm_lang$core$Basics_ops['++'], '#', _p9)),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(_p9),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					});
+			};
+			return A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Please choose an example:'),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$ul,
+							{ctor: '[]'},
+							A2(_elm_lang$core$List$map, exampleItem, _opensolid$svg$DocumentationExamples$examples)),
+						_1: {ctor: '[]'}
+					}
+				});
+		}
+	};
+	var hashParser = _evancz$url_parser$UrlParser$oneOf(
+		A2(
+			_elm_lang$core$List$map,
+			function (_p10) {
+				var _p11 = _p10;
+				return A2(
+					_evancz$url_parser$UrlParser$map,
+					_p11._1,
+					_evancz$url_parser$UrlParser$s(_p11._0));
+			},
+			_opensolid$svg$DocumentationExamples$examples));
+	var parseLocation = _evancz$url_parser$UrlParser$parseHash(hashParser);
+	var init = function (location) {
+		return {
+			ctor: '_Tuple2',
+			_0: parseLocation(location),
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
+	};
+	var update = F2(
+		function (location, model) {
+			return {
+				ctor: '_Tuple2',
+				_0: parseLocation(location),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		});
+	return A2(
+		_elm_lang$navigation$Navigation$program,
+		_elm_lang$core$Basics$identity,
+		{
+			init: init,
+			update: update,
+			view: view,
+			subscriptions: _elm_lang$core$Basics$always(_elm_lang$core$Platform_Sub$none)
+		});
+}()();
 var Elm = {};
 Elm['DocumentationExamples'] = Elm['DocumentationExamples'] || {};
 if (typeof _opensolid$svg$DocumentationExamples$main !== 'undefined') {
