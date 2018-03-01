@@ -12388,6 +12388,72 @@ var _opensolid$geometry$OpenSolid_Mesh$combine = function (meshes) {
 		return _opensolid$geometry$OpenSolid_Mesh$empty;
 	}
 };
+var _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$leftOf = F2(
+	function (point, _p0) {
+		var _p1 = _p0;
+		var _p2 = _opensolid$geometry$OpenSolid_Point2d$coordinates(point);
+		var x = _p2._0;
+		var y = _p2._1;
+		return A2(
+			_elm_lang$core$Maybe$map,
+			function (_p3) {
+				var _p4 = _p3;
+				return _p4._1._0;
+			},
+			A3(
+				_elm_lang$core$List$foldl,
+				F2(
+					function (edge, current) {
+						var _p5 = _opensolid$geometry$OpenSolid_LineSegment2d$endpoints(
+							_elm_lang$core$Tuple$second(edge));
+						var p1 = _p5._0;
+						var p2 = _p5._1;
+						var _p6 = _opensolid$geometry$OpenSolid_Point2d$coordinates(p1);
+						var x1 = _p6._0;
+						var y1 = _p6._1;
+						var _p7 = _opensolid$geometry$OpenSolid_Point2d$coordinates(p2);
+						var x2 = _p7._0;
+						var y2 = _p7._1;
+						var dx = _elm_lang$core$Native_Utils.eq(y1, y2) ? (x - A2(_elm_lang$core$Basics$max, x1, x2)) : (x - (x1 + (((y - y1) / (y2 - y1)) * (x2 - x1))));
+						if (_elm_lang$core$Native_Utils.cmp(dx, 0) > -1) {
+							var _p8 = current;
+							if (_p8.ctor === 'Nothing') {
+								return _elm_lang$core$Maybe$Just(
+									{ctor: '_Tuple2', _0: dx, _1: edge});
+							} else {
+								return (_elm_lang$core$Native_Utils.cmp(dx, _p8._0._0) < 1) ? _elm_lang$core$Maybe$Just(
+									{ctor: '_Tuple2', _0: dx, _1: edge}) : current;
+							}
+						} else {
+							return current;
+						}
+					}),
+				_elm_lang$core$Maybe$Nothing,
+				_p1._0));
+	});
+var _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$EdgeSet = function (a) {
+	return {ctor: 'EdgeSet', _0: a};
+};
+var _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$empty = _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$EdgeSet(
+	{ctor: '[]'});
+var _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$insert = F2(
+	function (edge, _p9) {
+		var _p10 = _p9;
+		return _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$EdgeSet(
+			{ctor: '::', _0: edge, _1: _p10._0});
+	});
+var _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$remove = F2(
+	function (edge, _p11) {
+		var _p12 = _p11;
+		return _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$EdgeSet(
+			A2(
+				_elm_lang$core$List$filter,
+				F2(
+					function (x, y) {
+						return !_elm_lang$core$Native_Utils.eq(x, y);
+					})(edge),
+				_p12._0));
+	});
 var _opensolid$geometry$OpenSolid_Bootstrap_Arc2d$with = _opensolid$geometry$OpenSolid_Geometry_Internal$Arc2d;
 var _opensolid$geometry$OpenSolid_Circle2d$toArc = function (_p0) {
 	var _p1 = _p0;
@@ -12678,312 +12744,6 @@ var _opensolid$geometry$OpenSolid_Triangle2d$placeIn = function (frame) {
 	return _opensolid$geometry$OpenSolid_Triangle2d$mapVertices(
 		_opensolid$geometry$OpenSolid_Point2d$placeIn(frame));
 };
-var _opensolid$geometry$OpenSolid_Polygon2d$toMonotonePolygons = function (polygon) {
-	return {ctor: '[]'};
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$triangulate = function (polygon) {
-	return _opensolid$geometry$OpenSolid_Mesh$empty;
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$loopEdges = function (vertices) {
-	var _p0 = vertices;
-	if (_p0.ctor === '[]') {
-		return {ctor: '[]'};
-	} else {
-		return A3(
-			_elm_lang$core$List$map2,
-			_opensolid$geometry$OpenSolid_LineSegment2d$from,
-			_p0,
-			A2(
-				_elm_lang$core$Basics_ops['++'],
-				_p0._1,
-				{
-					ctor: '::',
-					_0: _p0._0,
-					_1: {ctor: '[]'}
-				}));
-	}
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$innerLoops = function (_p1) {
-	var _p2 = _p1;
-	return _p2._0.innerLoops;
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$innerEdges = function (polygon) {
-	return A2(
-		_elm_lang$core$List$map,
-		_opensolid$geometry$OpenSolid_Polygon2d$loopEdges,
-		_opensolid$geometry$OpenSolid_Polygon2d$innerLoops(polygon));
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$outerLoop = function (_p3) {
-	var _p4 = _p3;
-	return _p4._0.outerLoop;
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$allVertices = function (polygon) {
-	return _elm_lang$core$List$concat(
-		{
-			ctor: '::',
-			_0: _opensolid$geometry$OpenSolid_Polygon2d$outerLoop(polygon),
-			_1: _opensolid$geometry$OpenSolid_Polygon2d$innerLoops(polygon)
-		});
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$outerEdges = function (polygon) {
-	return _opensolid$geometry$OpenSolid_Polygon2d$loopEdges(
-		_opensolid$geometry$OpenSolid_Polygon2d$outerLoop(polygon));
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$allEdges = function (polygon) {
-	return _elm_lang$core$List$concat(
-		{
-			ctor: '::',
-			_0: _opensolid$geometry$OpenSolid_Polygon2d$outerEdges(polygon),
-			_1: _opensolid$geometry$OpenSolid_Polygon2d$innerEdges(polygon)
-		});
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$perimeter = function (_p5) {
-	return _elm_lang$core$List$sum(
-		A2(
-			_elm_lang$core$List$map,
-			_opensolid$geometry$OpenSolid_LineSegment2d$length,
-			_opensolid$geometry$OpenSolid_Polygon2d$allEdges(_p5)));
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$mapVertices = F3(
-	function ($function, invert, polygon) {
-		var mappedInnerLoops = A2(
-			_elm_lang$core$List$map,
-			_elm_lang$core$List$map($function),
-			_opensolid$geometry$OpenSolid_Polygon2d$innerLoops(polygon));
-		var mappedOuterLoop = A2(
-			_elm_lang$core$List$map,
-			$function,
-			_opensolid$geometry$OpenSolid_Polygon2d$outerLoop(polygon));
-		return invert ? _opensolid$geometry$OpenSolid_Geometry_Internal$Polygon2d(
-			{
-				outerLoop: _elm_lang$core$List$reverse(mappedOuterLoop),
-				innerLoops: A2(_elm_lang$core$List$map, _elm_lang$core$List$reverse, mappedInnerLoops)
-			}) : _opensolid$geometry$OpenSolid_Geometry_Internal$Polygon2d(
-			{outerLoop: mappedOuterLoop, innerLoops: mappedInnerLoops});
-	});
-var _opensolid$geometry$OpenSolid_Polygon2d$scaleAbout = F2(
-	function (point, scale) {
-		return A2(
-			_opensolid$geometry$OpenSolid_Polygon2d$mapVertices,
-			A2(_opensolid$geometry$OpenSolid_Point2d$scaleAbout, point, scale),
-			_elm_lang$core$Native_Utils.cmp(scale, 0) < 0);
-	});
-var _opensolid$geometry$OpenSolid_Polygon2d$rotateAround = F2(
-	function (point, angle) {
-		return A2(
-			_opensolid$geometry$OpenSolid_Polygon2d$mapVertices,
-			A2(_opensolid$geometry$OpenSolid_Point2d$rotateAround, point, angle),
-			false);
-	});
-var _opensolid$geometry$OpenSolid_Polygon2d$translateBy = function (vector) {
-	return A2(
-		_opensolid$geometry$OpenSolid_Polygon2d$mapVertices,
-		_opensolid$geometry$OpenSolid_Point2d$translateBy(vector),
-		false);
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$mirrorAcross = function (axis) {
-	return A2(
-		_opensolid$geometry$OpenSolid_Polygon2d$mapVertices,
-		_opensolid$geometry$OpenSolid_Point2d$mirrorAcross(axis),
-		true);
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$relativeTo = function (frame) {
-	return A2(
-		_opensolid$geometry$OpenSolid_Polygon2d$mapVertices,
-		_opensolid$geometry$OpenSolid_Point2d$relativeTo(frame),
-		!_opensolid$geometry$OpenSolid_Frame2d$isRightHanded(frame));
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$placeIn = function (frame) {
-	return A2(
-		_opensolid$geometry$OpenSolid_Polygon2d$mapVertices,
-		_opensolid$geometry$OpenSolid_Point2d$placeIn(frame),
-		!_opensolid$geometry$OpenSolid_Frame2d$isRightHanded(frame));
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$boundingBox = function (polygon) {
-	return _opensolid$geometry$OpenSolid_BoundingBox2d$containingPoints(
-		_opensolid$geometry$OpenSolid_Polygon2d$outerLoop(polygon));
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseAround = F3(
-	function (origin, a, b) {
-		return _elm_lang$core$Native_Utils.cmp(
-			A2(
-				_opensolid$geometry$OpenSolid_Vector2d$crossProduct,
-				A2(_opensolid$geometry$OpenSolid_Vector2d$from, origin, a),
-				A2(_opensolid$geometry$OpenSolid_Vector2d$from, origin, b)),
-			0) > -1;
-	});
-var _opensolid$geometry$OpenSolid_Polygon2d$chainHelp = F2(
-	function (acc, list) {
-		chainHelp:
-		while (true) {
-			var _p6 = {ctor: '_Tuple2', _0: acc, _1: list};
-			if (_p6._1.ctor === '::') {
-				if ((_p6._0.ctor === '::') && (_p6._0._1.ctor === '::')) {
-					var _p9 = _p6._1._1;
-					var _p8 = _p6._1._0;
-					var _p7 = _p6._0._1._0;
-					if (A3(_opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseAround, _p7, _p6._0._0, _p8)) {
-						var _v4 = {ctor: '::', _0: _p7, _1: _p6._0._1._1},
-							_v5 = {ctor: '::', _0: _p8, _1: _p9};
-						acc = _v4;
-						list = _v5;
-						continue chainHelp;
-					} else {
-						var _v6 = {ctor: '::', _0: _p8, _1: acc},
-							_v7 = _p9;
-						acc = _v6;
-						list = _v7;
-						continue chainHelp;
-					}
-				} else {
-					var _v8 = {ctor: '::', _0: _p6._1._0, _1: acc},
-						_v9 = _p6._1._1;
-					acc = _v8;
-					list = _v9;
-					continue chainHelp;
-				}
-			} else {
-				return A2(_elm_lang$core$List$drop, 1, acc);
-			}
-		}
-	});
-var _opensolid$geometry$OpenSolid_Polygon2d$chain = _opensolid$geometry$OpenSolid_Polygon2d$chainHelp(
-	{ctor: '[]'});
-var _opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseArea = function (vertices) {
-	var _p10 = vertices;
-	if (_p10.ctor === '[]') {
-		return 0;
-	} else {
-		if (_p10._1.ctor === '[]') {
-			return 0;
-		} else {
-			if (_p10._1._1.ctor === '[]') {
-				return 0;
-			} else {
-				var _p11 = _p10._1._1;
-				var segmentArea = F2(
-					function (start, end) {
-						return _opensolid$geometry$OpenSolid_Triangle2d$counterclockwiseArea(
-							_opensolid$geometry$OpenSolid_Triangle2d$fromVertices(
-								{ctor: '_Tuple3', _0: _p10._0, _1: start, _2: end}));
-					});
-				var segmentAreas = A3(
-					_elm_lang$core$List$map2,
-					segmentArea,
-					{ctor: '::', _0: _p10._1._0, _1: _p11},
-					_p11);
-				return _elm_lang$core$List$sum(segmentAreas);
-			}
-		}
-	}
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$makeOuterLoop = function (vertices) {
-	return (_elm_lang$core$Native_Utils.cmp(
-		_opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseArea(vertices),
-		0) > -1) ? vertices : _elm_lang$core$List$reverse(vertices);
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$singleLoop = function (vertices) {
-	return _opensolid$geometry$OpenSolid_Geometry_Internal$Polygon2d(
-		{
-			outerLoop: _opensolid$geometry$OpenSolid_Polygon2d$makeOuterLoop(vertices),
-			innerLoops: {ctor: '[]'}
-		});
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$convexHull = function (points) {
-	var sorted = A2(_elm_lang$core$List$sortBy, _opensolid$geometry$OpenSolid_Point2d$coordinates, points);
-	var lower = _opensolid$geometry$OpenSolid_Polygon2d$chain(sorted);
-	var upper = _opensolid$geometry$OpenSolid_Polygon2d$chain(
-		_elm_lang$core$List$reverse(sorted));
-	return _opensolid$geometry$OpenSolid_Polygon2d$singleLoop(
-		A2(_elm_lang$core$Basics_ops['++'], lower, upper));
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$makeInnerLoop = function (vertices) {
-	return (_elm_lang$core$Native_Utils.cmp(
-		_opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseArea(vertices),
-		0) < 1) ? vertices : _elm_lang$core$List$reverse(vertices);
-};
-var _opensolid$geometry$OpenSolid_Polygon2d$withHoles = F2(
-	function (outerLoop, innerLoops) {
-		return _opensolid$geometry$OpenSolid_Geometry_Internal$Polygon2d(
-			{
-				outerLoop: _opensolid$geometry$OpenSolid_Polygon2d$makeOuterLoop(outerLoop),
-				innerLoops: A2(_elm_lang$core$List$map, _opensolid$geometry$OpenSolid_Polygon2d$makeInnerLoop, innerLoops)
-			});
-	});
-var _opensolid$geometry$OpenSolid_Polygon2d$area = function (polygon) {
-	return _opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseArea(
-		_opensolid$geometry$OpenSolid_Polygon2d$outerLoop(polygon)) + _elm_lang$core$List$sum(
-		A2(
-			_elm_lang$core$List$map,
-			_opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseArea,
-			_opensolid$geometry$OpenSolid_Polygon2d$innerLoops(polygon)));
-};
-var _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$leftOf = F2(
-	function (point, _p0) {
-		var _p1 = _p0;
-		var _p2 = _opensolid$geometry$OpenSolid_Point2d$coordinates(point);
-		var x = _p2._0;
-		var y = _p2._1;
-		return A2(
-			_elm_lang$core$Maybe$map,
-			function (_p3) {
-				var _p4 = _p3;
-				return _p4._1._0;
-			},
-			A3(
-				_elm_lang$core$List$foldl,
-				F2(
-					function (edge, current) {
-						var _p5 = _opensolid$geometry$OpenSolid_LineSegment2d$endpoints(
-							_elm_lang$core$Tuple$second(edge));
-						var p1 = _p5._0;
-						var p2 = _p5._1;
-						var _p6 = _opensolid$geometry$OpenSolid_Point2d$coordinates(p1);
-						var x1 = _p6._0;
-						var y1 = _p6._1;
-						var _p7 = _opensolid$geometry$OpenSolid_Point2d$coordinates(p2);
-						var x2 = _p7._0;
-						var y2 = _p7._1;
-						var dx = _elm_lang$core$Native_Utils.eq(y1, y2) ? (x - A2(_elm_lang$core$Basics$max, x1, x2)) : (x - (x1 + (((y - y1) / (y2 - y1)) * (x2 - x1))));
-						if (_elm_lang$core$Native_Utils.cmp(dx, 0) > -1) {
-							var _p8 = current;
-							if (_p8.ctor === 'Nothing') {
-								return _elm_lang$core$Maybe$Just(
-									{ctor: '_Tuple2', _0: dx, _1: edge});
-							} else {
-								return (_elm_lang$core$Native_Utils.cmp(dx, _p8._0._0) < 1) ? _elm_lang$core$Maybe$Just(
-									{ctor: '_Tuple2', _0: dx, _1: edge}) : current;
-							}
-						} else {
-							return current;
-						}
-					}),
-				_elm_lang$core$Maybe$Nothing,
-				_p1._0));
-	});
-var _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$EdgeSet = function (a) {
-	return {ctor: 'EdgeSet', _0: a};
-};
-var _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$empty = _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$EdgeSet(
-	{ctor: '[]'});
-var _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$insert = F2(
-	function (edge, _p9) {
-		var _p10 = _p9;
-		return _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$EdgeSet(
-			{ctor: '::', _0: edge, _1: _p10._0});
-	});
-var _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$remove = F2(
-	function (edge, _p11) {
-		var _p12 = _p11;
-		return _opensolid$geometry$OpenSolid_Polygon2d_EdgeSet$EdgeSet(
-			A2(
-				_elm_lang$core$List$filter,
-				F2(
-					function (x, y) {
-						return !_elm_lang$core$Native_Utils.eq(x, y);
-					})(edge),
-				_p12._0));
-	});
 var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$startNewLeftChain = F2(
 	function (vertex, state) {
 		var collectFaces = F3(
@@ -13267,8 +13027,8 @@ var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$error = function (defaultVa
 	return _elm_lang$core$Native_Utils.crash(
 		'OpenSolid.Polygon2d.Monotone',
 		{
-			start: {line: 235, column: 5},
-			end: {line: 235, column: 16}
+			start: {line: 237, column: 5},
+			end: {line: 237, column: 16}
 		})('Unexpected');
 };
 var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$defaultTo = F2(
@@ -13331,6 +13091,58 @@ var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$getEdge = F2(
 	function (index, state) {
 		return A2(_Skinney$elm_array_exploration$Array_Hamt$get, index, state.edges);
 	});
+var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$buildLoop = F5(
+	function (state, points, startIndex, currentIndex, _p10) {
+		buildLoop:
+		while (true) {
+			var _p11 = _p10;
+			var _p15 = _p11._0;
+			var _p12 = A2(_opensolid$geometry$OpenSolid_Polygon2d_Monotone$getEdge, currentIndex, state);
+			if (_p12.ctor === 'Just') {
+				var _p14 = _p12._0;
+				var _p13 = A2(_Skinney$elm_array_exploration$Array_Hamt$get, _p14.startVertexIndex, points);
+				if (_p13.ctor === 'Just') {
+					var nextIndex = _p14.nextEdgeIndex;
+					var newVertex = {index: _p14.startVertexIndex, position: _p13._0, nextVertexIndex: _p14.endVertexIndex};
+					var newAccumulated = {ctor: '::', _0: newVertex, _1: _p11._1};
+					var updatedEdgeIndices = A2(_elm_lang$core$Set$insert, currentIndex, _p15);
+					if (_elm_lang$core$Native_Utils.eq(nextIndex, startIndex)) {
+						return {
+							ctor: '_Tuple2',
+							_0: updatedEdgeIndices,
+							_1: _elm_lang$core$List$reverse(newAccumulated)
+						};
+					} else {
+						var _v19 = state,
+							_v20 = points,
+							_v21 = startIndex,
+							_v22 = nextIndex,
+							_v23 = {ctor: '_Tuple2', _0: updatedEdgeIndices, _1: newAccumulated};
+						state = _v19;
+						points = _v20;
+						startIndex = _v21;
+						currentIndex = _v22;
+						_p10 = _v23;
+						continue buildLoop;
+					}
+				} else {
+					return _opensolid$geometry$OpenSolid_Polygon2d_Monotone$error(
+						{
+							ctor: '_Tuple2',
+							_0: _p15,
+							_1: {ctor: '[]'}
+						});
+				}
+			} else {
+				return _opensolid$geometry$OpenSolid_Polygon2d_Monotone$error(
+					{
+						ctor: '_Tuple2',
+						_0: _p15,
+						_1: {ctor: '[]'}
+					});
+			}
+		}
+	});
 var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$collectMonotoneLoops = function (state) {
 	var allEdgeIndices = A2(
 		_elm_lang$core$List$range,
@@ -13342,54 +13154,6 @@ var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$collectMonotoneLoops = func
 			return _.position;
 		},
 		state.vertices);
-	var buildLoop = F3(
-		function (startIndex, currentIndex, _p10) {
-			buildLoop:
-			while (true) {
-				var _p11 = _p10;
-				var _p15 = _p11._0;
-				var _p12 = A2(_opensolid$geometry$OpenSolid_Polygon2d_Monotone$getEdge, currentIndex, state);
-				if (_p12.ctor === 'Just') {
-					var _p14 = _p12._0;
-					var _p13 = A2(_Skinney$elm_array_exploration$Array_Hamt$get, _p14.startVertexIndex, points);
-					if (_p13.ctor === 'Just') {
-						var nextIndex = _p14.nextEdgeIndex;
-						var newVertex = {index: _p14.startVertexIndex, position: _p13._0, nextVertexIndex: _p14.endVertexIndex};
-						var newAccumulated = {ctor: '::', _0: newVertex, _1: _p11._1};
-						var updatedEdgeIndices = A2(_elm_lang$core$Set$insert, currentIndex, _p15);
-						if (_elm_lang$core$Native_Utils.eq(nextIndex, startIndex)) {
-							return {
-								ctor: '_Tuple2',
-								_0: updatedEdgeIndices,
-								_1: _elm_lang$core$List$reverse(newAccumulated)
-							};
-						} else {
-							var _v19 = startIndex,
-								_v20 = nextIndex,
-								_v21 = {ctor: '_Tuple2', _0: updatedEdgeIndices, _1: newAccumulated};
-							startIndex = _v19;
-							currentIndex = _v20;
-							_p10 = _v21;
-							continue buildLoop;
-						}
-					} else {
-						return _opensolid$geometry$OpenSolid_Polygon2d_Monotone$error(
-							{
-								ctor: '_Tuple2',
-								_0: _p15,
-								_1: {ctor: '[]'}
-							});
-					}
-				} else {
-					return _opensolid$geometry$OpenSolid_Polygon2d_Monotone$error(
-						{
-							ctor: '_Tuple2',
-							_0: _p15,
-							_1: {ctor: '[]'}
-						});
-				}
-			}
-		});
 	var processStartEdge = F2(
 		function (index, accumulated) {
 			var _p16 = accumulated;
@@ -13398,8 +13162,10 @@ var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$collectMonotoneLoops = func
 			if (A2(_elm_lang$core$Set$member, index, processedEdgeIndices)) {
 				return accumulated;
 			} else {
-				var _p17 = A3(
-					buildLoop,
+				var _p17 = A5(
+					_opensolid$geometry$OpenSolid_Polygon2d_Monotone$buildLoop,
+					state,
+					points,
 					index,
 					index,
 					{
@@ -13493,27 +13259,27 @@ var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$removeDuplicates = F2(
 				var _p21 = _p19._0;
 				var _p20 = accumulatedPoints;
 				if (_p20.ctor === '[]') {
-					var _v24 = _p22,
-						_v25 = {
+					var _v26 = _p22,
+						_v27 = {
 						ctor: '::',
 						_0: _p21,
 						_1: {ctor: '[]'}
 					};
-					points = _v24;
-					accumulatedPoints = _v25;
+					points = _v26;
+					accumulatedPoints = _v27;
 					continue removeDuplicates;
 				} else {
 					if (_elm_lang$core$Native_Utils.eq(_p21, _p20._0)) {
-						var _v26 = _p22,
-							_v27 = accumulatedPoints;
-						points = _v26;
-						accumulatedPoints = _v27;
-						continue removeDuplicates;
-					} else {
 						var _v28 = _p22,
-							_v29 = {ctor: '::', _0: _p21, _1: accumulatedPoints};
+							_v29 = accumulatedPoints;
 						points = _v28;
 						accumulatedPoints = _v29;
+						continue removeDuplicates;
+					} else {
+						var _v30 = _p22,
+							_v31 = {ctor: '::', _0: _p21, _1: accumulatedPoints};
+						points = _v30;
+						accumulatedPoints = _v31;
 						continue removeDuplicates;
 					}
 				}
@@ -13775,12 +13541,12 @@ var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$toVertices = function (poin
 								position: _p36,
 								kind: A3(_opensolid$geometry$OpenSolid_Polygon2d_Monotone$kind, previous, _p36, _p37)
 							};
-							var _v33 = _p36,
-								_v34 = {ctor: '::', _0: _p37, _1: _p34._1._1},
-								_v35 = {ctor: '::', _0: newVertex, _1: accumulated};
-							previous = _v33;
-							points = _v34;
-							accumulated = _v35;
+							var _v35 = _p36,
+								_v36 = {ctor: '::', _0: _p37, _1: _p34._1._1},
+								_v37 = {ctor: '::', _0: newVertex, _1: accumulated};
+							previous = _v35;
+							points = _v36;
+							accumulated = _v37;
 							continue collect;
 						}
 					}
@@ -13836,7 +13602,7 @@ var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$init = function (_p39) {
 			allLoops));
 	return {vertices: vertices, edges: edges};
 };
-var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$polygons = function (polygon) {
+var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$monotonePolygons = function (polygon) {
 	var handleVertex = F2(
 		function (_p44, current) {
 			var _p45 = _p44;
@@ -13885,6 +13651,254 @@ var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$polygons = function (polygo
 	var finalState = A3(_elm_lang$core$List$foldl, handleVertex, initialState, priorityQueue);
 	var vertexArray = _Skinney$elm_array_exploration$Array_Hamt$fromList(vertices);
 	return _opensolid$geometry$OpenSolid_Polygon2d_Monotone$collectMonotoneLoops(finalState);
+};
+var _opensolid$geometry$OpenSolid_Polygon2d_Monotone$triangulation = function (polygon) {
+	var _p54 = _opensolid$geometry$OpenSolid_Polygon2d_Monotone$monotonePolygons(polygon);
+	var points = _p54._0;
+	var loops = _p54._1;
+	return _opensolid$geometry$OpenSolid_Mesh$with(
+		{
+			vertices: points,
+			faceIndices: _elm_lang$core$List$concat(
+				A2(_elm_lang$core$List$map, _opensolid$geometry$OpenSolid_Polygon2d_Monotone$faces, loops))
+		});
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$triangulate = function (polygon) {
+	return _opensolid$geometry$OpenSolid_Polygon2d_Monotone$triangulation(polygon);
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$loopEdges = function (vertices) {
+	var _p0 = vertices;
+	if (_p0.ctor === '[]') {
+		return {ctor: '[]'};
+	} else {
+		return A3(
+			_elm_lang$core$List$map2,
+			_opensolid$geometry$OpenSolid_LineSegment2d$from,
+			_p0,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_p0._1,
+				{
+					ctor: '::',
+					_0: _p0._0,
+					_1: {ctor: '[]'}
+				}));
+	}
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$innerLoops = function (_p1) {
+	var _p2 = _p1;
+	return _p2._0.innerLoops;
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$innerEdges = function (polygon) {
+	return A2(
+		_elm_lang$core$List$map,
+		_opensolid$geometry$OpenSolid_Polygon2d$loopEdges,
+		_opensolid$geometry$OpenSolid_Polygon2d$innerLoops(polygon));
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$outerLoop = function (_p3) {
+	var _p4 = _p3;
+	return _p4._0.outerLoop;
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$allVertices = function (polygon) {
+	return _elm_lang$core$List$concat(
+		{
+			ctor: '::',
+			_0: _opensolid$geometry$OpenSolid_Polygon2d$outerLoop(polygon),
+			_1: _opensolid$geometry$OpenSolid_Polygon2d$innerLoops(polygon)
+		});
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$outerEdges = function (polygon) {
+	return _opensolid$geometry$OpenSolid_Polygon2d$loopEdges(
+		_opensolid$geometry$OpenSolid_Polygon2d$outerLoop(polygon));
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$allEdges = function (polygon) {
+	return _elm_lang$core$List$concat(
+		{
+			ctor: '::',
+			_0: _opensolid$geometry$OpenSolid_Polygon2d$outerEdges(polygon),
+			_1: _opensolid$geometry$OpenSolid_Polygon2d$innerEdges(polygon)
+		});
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$perimeter = function (_p5) {
+	return _elm_lang$core$List$sum(
+		A2(
+			_elm_lang$core$List$map,
+			_opensolid$geometry$OpenSolid_LineSegment2d$length,
+			_opensolid$geometry$OpenSolid_Polygon2d$allEdges(_p5)));
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$mapVertices = F3(
+	function ($function, invert, polygon) {
+		var mappedInnerLoops = A2(
+			_elm_lang$core$List$map,
+			_elm_lang$core$List$map($function),
+			_opensolid$geometry$OpenSolid_Polygon2d$innerLoops(polygon));
+		var mappedOuterLoop = A2(
+			_elm_lang$core$List$map,
+			$function,
+			_opensolid$geometry$OpenSolid_Polygon2d$outerLoop(polygon));
+		return invert ? _opensolid$geometry$OpenSolid_Geometry_Internal$Polygon2d(
+			{
+				outerLoop: _elm_lang$core$List$reverse(mappedOuterLoop),
+				innerLoops: A2(_elm_lang$core$List$map, _elm_lang$core$List$reverse, mappedInnerLoops)
+			}) : _opensolid$geometry$OpenSolid_Geometry_Internal$Polygon2d(
+			{outerLoop: mappedOuterLoop, innerLoops: mappedInnerLoops});
+	});
+var _opensolid$geometry$OpenSolid_Polygon2d$scaleAbout = F2(
+	function (point, scale) {
+		return A2(
+			_opensolid$geometry$OpenSolid_Polygon2d$mapVertices,
+			A2(_opensolid$geometry$OpenSolid_Point2d$scaleAbout, point, scale),
+			_elm_lang$core$Native_Utils.cmp(scale, 0) < 0);
+	});
+var _opensolid$geometry$OpenSolid_Polygon2d$rotateAround = F2(
+	function (point, angle) {
+		return A2(
+			_opensolid$geometry$OpenSolid_Polygon2d$mapVertices,
+			A2(_opensolid$geometry$OpenSolid_Point2d$rotateAround, point, angle),
+			false);
+	});
+var _opensolid$geometry$OpenSolid_Polygon2d$translateBy = function (vector) {
+	return A2(
+		_opensolid$geometry$OpenSolid_Polygon2d$mapVertices,
+		_opensolid$geometry$OpenSolid_Point2d$translateBy(vector),
+		false);
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$mirrorAcross = function (axis) {
+	return A2(
+		_opensolid$geometry$OpenSolid_Polygon2d$mapVertices,
+		_opensolid$geometry$OpenSolid_Point2d$mirrorAcross(axis),
+		true);
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$relativeTo = function (frame) {
+	return A2(
+		_opensolid$geometry$OpenSolid_Polygon2d$mapVertices,
+		_opensolid$geometry$OpenSolid_Point2d$relativeTo(frame),
+		!_opensolid$geometry$OpenSolid_Frame2d$isRightHanded(frame));
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$placeIn = function (frame) {
+	return A2(
+		_opensolid$geometry$OpenSolid_Polygon2d$mapVertices,
+		_opensolid$geometry$OpenSolid_Point2d$placeIn(frame),
+		!_opensolid$geometry$OpenSolid_Frame2d$isRightHanded(frame));
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$boundingBox = function (polygon) {
+	return _opensolid$geometry$OpenSolid_BoundingBox2d$containingPoints(
+		_opensolid$geometry$OpenSolid_Polygon2d$outerLoop(polygon));
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseAround = F3(
+	function (origin, a, b) {
+		return _elm_lang$core$Native_Utils.cmp(
+			A2(
+				_opensolid$geometry$OpenSolid_Vector2d$crossProduct,
+				A2(_opensolid$geometry$OpenSolid_Vector2d$from, origin, a),
+				A2(_opensolid$geometry$OpenSolid_Vector2d$from, origin, b)),
+			0) > -1;
+	});
+var _opensolid$geometry$OpenSolid_Polygon2d$chainHelp = F2(
+	function (acc, list) {
+		chainHelp:
+		while (true) {
+			var _p6 = {ctor: '_Tuple2', _0: acc, _1: list};
+			if (_p6._1.ctor === '::') {
+				if ((_p6._0.ctor === '::') && (_p6._0._1.ctor === '::')) {
+					var _p9 = _p6._1._1;
+					var _p8 = _p6._1._0;
+					var _p7 = _p6._0._1._0;
+					if (A3(_opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseAround, _p7, _p6._0._0, _p8)) {
+						var _v4 = {ctor: '::', _0: _p7, _1: _p6._0._1._1},
+							_v5 = {ctor: '::', _0: _p8, _1: _p9};
+						acc = _v4;
+						list = _v5;
+						continue chainHelp;
+					} else {
+						var _v6 = {ctor: '::', _0: _p8, _1: acc},
+							_v7 = _p9;
+						acc = _v6;
+						list = _v7;
+						continue chainHelp;
+					}
+				} else {
+					var _v8 = {ctor: '::', _0: _p6._1._0, _1: acc},
+						_v9 = _p6._1._1;
+					acc = _v8;
+					list = _v9;
+					continue chainHelp;
+				}
+			} else {
+				return A2(_elm_lang$core$List$drop, 1, acc);
+			}
+		}
+	});
+var _opensolid$geometry$OpenSolid_Polygon2d$chain = _opensolid$geometry$OpenSolid_Polygon2d$chainHelp(
+	{ctor: '[]'});
+var _opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseArea = function (vertices) {
+	var _p10 = vertices;
+	if (_p10.ctor === '[]') {
+		return 0;
+	} else {
+		if (_p10._1.ctor === '[]') {
+			return 0;
+		} else {
+			if (_p10._1._1.ctor === '[]') {
+				return 0;
+			} else {
+				var _p11 = _p10._1._1;
+				var segmentArea = F2(
+					function (start, end) {
+						return _opensolid$geometry$OpenSolid_Triangle2d$counterclockwiseArea(
+							_opensolid$geometry$OpenSolid_Triangle2d$fromVertices(
+								{ctor: '_Tuple3', _0: _p10._0, _1: start, _2: end}));
+					});
+				var segmentAreas = A3(
+					_elm_lang$core$List$map2,
+					segmentArea,
+					{ctor: '::', _0: _p10._1._0, _1: _p11},
+					_p11);
+				return _elm_lang$core$List$sum(segmentAreas);
+			}
+		}
+	}
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$makeOuterLoop = function (vertices) {
+	return (_elm_lang$core$Native_Utils.cmp(
+		_opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseArea(vertices),
+		0) > -1) ? vertices : _elm_lang$core$List$reverse(vertices);
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$singleLoop = function (vertices) {
+	return _opensolid$geometry$OpenSolid_Geometry_Internal$Polygon2d(
+		{
+			outerLoop: _opensolid$geometry$OpenSolid_Polygon2d$makeOuterLoop(vertices),
+			innerLoops: {ctor: '[]'}
+		});
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$convexHull = function (points) {
+	var sorted = A2(_elm_lang$core$List$sortBy, _opensolid$geometry$OpenSolid_Point2d$coordinates, points);
+	var lower = _opensolid$geometry$OpenSolid_Polygon2d$chain(sorted);
+	var upper = _opensolid$geometry$OpenSolid_Polygon2d$chain(
+		_elm_lang$core$List$reverse(sorted));
+	return _opensolid$geometry$OpenSolid_Polygon2d$singleLoop(
+		A2(_elm_lang$core$Basics_ops['++'], lower, upper));
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$makeInnerLoop = function (vertices) {
+	return (_elm_lang$core$Native_Utils.cmp(
+		_opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseArea(vertices),
+		0) < 1) ? vertices : _elm_lang$core$List$reverse(vertices);
+};
+var _opensolid$geometry$OpenSolid_Polygon2d$withHoles = F2(
+	function (outerLoop, innerLoops) {
+		return _opensolid$geometry$OpenSolid_Geometry_Internal$Polygon2d(
+			{
+				outerLoop: _opensolid$geometry$OpenSolid_Polygon2d$makeOuterLoop(outerLoop),
+				innerLoops: A2(_elm_lang$core$List$map, _opensolid$geometry$OpenSolid_Polygon2d$makeInnerLoop, innerLoops)
+			});
+	});
+var _opensolid$geometry$OpenSolid_Polygon2d$area = function (polygon) {
+	return _opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseArea(
+		_opensolid$geometry$OpenSolid_Polygon2d$outerLoop(polygon)) + _elm_lang$core$List$sum(
+		A2(
+			_elm_lang$core$List$map,
+			_opensolid$geometry$OpenSolid_Polygon2d$counterclockwiseArea,
+			_opensolid$geometry$OpenSolid_Polygon2d$innerLoops(polygon)));
 };
 var _opensolid$geometry$OpenSolid_Polyline2d$vertices = function (_p0) {
 	var _p1 = _p0;
@@ -16588,10 +16602,16 @@ var _opensolid$geometry$MonotonePolygones$polygonGenerator = function () {
 		},
 		A2(_elm_lang$core$Random$int, 3, 32));
 }();
-var _opensolid$geometry$MonotonePolygones$Model = F2(
-	function (a, b) {
-		return {polygon: a, angleInDegrees: b};
+var _opensolid$geometry$MonotonePolygones$Model = F4(
+	function (a, b, c, d) {
+		return {polygon: a, angleInDegrees: b, showTriangulation: c, showMonotonePolygons: d};
 	});
+var _opensolid$geometry$MonotonePolygones$SetShowMonotonePolygons = function (a) {
+	return {ctor: 'SetShowMonotonePolygons', _0: a};
+};
+var _opensolid$geometry$MonotonePolygones$SetShowTriangulation = function (a) {
+	return {ctor: 'SetShowTriangulation', _0: a};
+};
 var _opensolid$geometry$MonotonePolygones$SetAngleInDegrees = function (a) {
 	return {ctor: 'SetAngleInDegrees', _0: a};
 };
@@ -16604,7 +16624,9 @@ var _opensolid$geometry$MonotonePolygones$init = {
 	_0: {
 		polygon: _opensolid$geometry$OpenSolid_Polygon2d$singleLoop(
 			{ctor: '[]'}),
-		angleInDegrees: 0
+		angleInDegrees: 0,
+		showTriangulation: false,
+		showMonotonePolygons: false
 	},
 	_1: _opensolid$geometry$MonotonePolygones$generateNewPolygon
 };
@@ -16622,12 +16644,28 @@ var _opensolid$geometry$MonotonePolygones$update = F2(
 						{polygon: _p5._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			default:
+			case 'SetAngleInDegrees':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{angleInDegrees: _p5._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SetShowTriangulation':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{showTriangulation: _p5._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{showMonotonePolygons: _p5._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
@@ -16639,7 +16677,7 @@ var _opensolid$geometry$MonotonePolygones$view = function (model) {
 		_opensolid$geometry$OpenSolid_BoundingBox2d$centroid(_opensolid$geometry$MonotonePolygones$renderBounds),
 		_elm_lang$core$Basics$degrees(model.angleInDegrees),
 		model.polygon);
-	var _p6 = _opensolid$geometry$OpenSolid_Polygon2d_Monotone$polygons(rotatedPolygon);
+	var _p6 = _opensolid$geometry$OpenSolid_Polygon2d_Monotone$monotonePolygons(rotatedPolygon);
 	var points = _p6._0;
 	var loops = _p6._1;
 	var numLoops = _elm_lang$core$List$length(loops);
@@ -16664,14 +16702,14 @@ var _opensolid$geometry$MonotonePolygones$view = function (model) {
 				faceIndices);
 			var hueString = _elm_lang$core$Basics$toString(
 				(360 * _elm_lang$core$Basics$toFloat(loopIndex)) / _elm_lang$core$Basics$toFloat(numLoops));
-			var fillColor = A2(
+			var fillColor = model.showMonotonePolygons ? A2(
 				_elm_lang$core$Basics_ops['++'],
 				'hsla(',
-				A2(_elm_lang$core$Basics_ops['++'], hueString, ',50%, 50%, 0.5)'));
-			var strokeColor = A2(
+				A2(_elm_lang$core$Basics_ops['++'], hueString, ',50%, 50%, 0.5)')) : 'rgb(248, 248, 248)';
+			var strokeColor = model.showMonotonePolygons ? A2(
 				_elm_lang$core$Basics_ops['++'],
 				'hsla(',
-				A2(_elm_lang$core$Basics_ops['++'], hueString, ',50%, 40%, 0.5)'));
+				A2(_elm_lang$core$Basics_ops['++'], hueString, ',50%, 40%, 0.5)')) : 'darkgrey';
 			return A2(
 				_elm_lang$svg$Svg$g,
 				{ctor: '[]'},
@@ -16714,10 +16752,10 @@ var _opensolid$geometry$MonotonePolygones$view = function (model) {
 							{ctor: '[]'},
 							{
 								ctor: '::',
-								_0: A2(
+								_0: model.showTriangulation ? A2(
 									_elm_lang$svg$Svg$g,
 									{ctor: '[]'},
-									A2(_elm_lang$core$List$indexedMap, drawLoop, loops)),
+									A2(_elm_lang$core$List$indexedMap, drawLoop, loops)) : _elm_lang$svg$Svg$text(''),
 								_1: {
 									ctor: '::',
 									_0: A2(
@@ -16763,7 +16801,53 @@ var _opensolid$geometry$MonotonePolygones$view = function (model) {
 						},
 						{min: -180, max: 180, step: 1},
 						model.angleInDegrees)),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{ctor: '[]'},
+						{
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$map,
+								_opensolid$geometry$MonotonePolygones$SetShowTriangulation,
+								A2(
+									_kintail$input_widget$Kintail_InputWidget$checkbox,
+									{ctor: '[]'},
+									model.showTriangulation)),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Show triangulation'),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: A2(
+									_elm_lang$html$Html$map,
+									_opensolid$geometry$MonotonePolygones$SetShowMonotonePolygons,
+									A2(
+										_kintail$input_widget$Kintail_InputWidget$checkbox,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$disabled(!model.showTriangulation),
+											_1: {ctor: '[]'}
+										},
+										model.showMonotonePolygons)),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Show monotone polygons'),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
 			}
 		});
 };
