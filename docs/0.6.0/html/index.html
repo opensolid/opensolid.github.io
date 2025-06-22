@@ -1,0 +1,193 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenSolid &mdash; OpenSolid  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            OpenSolid
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">OpenSolid</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">OpenSolid</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="opensolid">
+<h1>OpenSolid<a class="headerlink" href="#opensolid" title="Link to this heading"></a></h1>
+<p><a class="reference external" href="https://github.com/ianmackenzie/opensolid">OpenSolid</a> is an under-development 2D/3D CAD library.
+This package contains its official Python bindings. The bindings (and OpenSolid itself) are still
+under active development, but you’re welcome to try them out!</p>
+<p>The package contains a single <code class="docutils literal notranslate"><span class="pre">opensolid</span></code> module containing a variety of classes representing
+geometric values and quantities, such as <code class="docutils literal notranslate"><span class="pre">Length</span></code>, <code class="docutils literal notranslate"><span class="pre">Angle</span></code>, <code class="docutils literal notranslate"><span class="pre">Point2d</span></code>, and <code class="docutils literal notranslate"><span class="pre">Direction2d</span></code>.
+Each class and function has a brief docstring, but here’s a brief sampling of some of the
+operations you can do:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">opensolid</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="go"># Define some Length values</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">width</span> <span class="o">=</span> <span class="n">Length</span><span class="o">.</span><span class="n">meters</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">height</span> <span class="o">=</span> <span class="n">Length</span><span class="o">.</span><span class="n">centimeters</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="go"># Multiply those to get an Area value</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">width</span> <span class="o">*</span> <span class="n">height</span>
+<span class="go">Area.square_meters(0.5)</span>
+
+<span class="go"># All values are stored in SI units internally,</span>
+<span class="go"># so you can mix and match units freely</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Length</span><span class="o">.</span><span class="n">centimeters</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="o">+</span> <span class="n">Length</span><span class="o">.</span><span class="n">inches</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="go">Length.meters(1.254)</span>
+
+<span class="go"># You can request that any length be converted into</span>
+<span class="go"># a value in specific units (giving back a plain &#39;float&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Length</span><span class="o">.</span><span class="n">meters</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">in_inches</span><span class="p">()</span>
+<span class="go">78.74015748031496</span>
+
+<span class="go"># Define a couple of points in 2D from their</span>
+<span class="go"># X and Y coordinates, given in centimeters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span> <span class="o">=</span> <span class="n">Point2d</span><span class="o">.</span><span class="n">centimeters</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p2</span> <span class="o">=</span> <span class="n">Point2d</span><span class="o">.</span><span class="n">centimeters</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">80</span><span class="p">)</span>
+
+<span class="go"># Measure the distance between the points</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p1</span><span class="o">.</span><span class="n">distance_to</span><span class="p">(</span><span class="n">p2</span><span class="p">)</span>
+<span class="go">Length.meters(0.5385164807134505)</span>
+
+<span class="go"># Build up a parametric curve (expression);</span>
+<span class="go"># &#39;Curve.t&#39; is the curve parameter, which</span>
+<span class="go"># ranges from 0 to 1, so here x will range</span>
+<span class="go"># from 0 to 5.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">Curve</span><span class="o">.</span><span class="n">t</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">squared</span><span class="p">()</span> <span class="o">-</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="go"># Evaluate the curve at t=0.5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">-5.25</span>
+
+<span class="go"># Find the values of t for which y=0. For this, we need</span>
+<span class="go"># to set up a tolerance value. (A tolerance is needed</span>
+<span class="go"># for cases where e.g. the curve decreases to a tiny</span>
+<span class="go"># value like 1e-9 before increasing again; should that</span>
+<span class="go"># be considered a solution or not? Similarly, if the</span>
+<span class="go"># curve decreases to -1e9 and then increases again,</span>
+<span class="go"># should that be considered two zeros or just one? See</span>
+<span class="go"># the documentation of Curve.zeros for more info.)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Tolerance</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="c1"># Get the location of each zero, i.e. the</span>
+<span class="gp">... </span>    <span class="c1"># value of t (not x!) for which y is zero</span>
+<span class="gp">... </span>    <span class="n">roots</span> <span class="o">=</span> <span class="p">[</span><span class="n">zero</span><span class="o">.</span><span class="n">location</span><span class="p">()</span> <span class="k">for</span> <span class="n">zero</span> <span class="ow">in</span> <span class="n">y</span><span class="o">.</span><span class="n">zeros</span><span class="p">()]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">roots</span>
+<span class="go">[0.041742430504416, 0.9582575694955838]</span>
+
+<span class="go"># Find the values of x at which y is zero,</span>
+<span class="go"># by evaluating x at those roots</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">roots</span><span class="p">]</span>
+<span class="go">[0.20871215252208, 4.7912878474779195]</span>
+
+<span class="go"># Check that y is in fact zero at those roots</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">y</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="k">for</span> <span class="n">root</span> <span class="ow">in</span> <span class="n">roots</span><span class="p">]</span>
+<span class="go">[0.0, 0.0]</span>
+
+<span class="go"># Construct a displacement (vector with length units)</span>
+<span class="go"># from its components in meters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Displacement2d</span><span class="o">.</span><span class="n">meters</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="go"># To get the direction of a vector, we also need to</span>
+<span class="go"># define a tolerance (any vector with magnitude</span>
+<span class="go"># smaller than this value will be considered &#39;zero&#39;</span>
+<span class="go"># and therefore have no direction, so attempting to</span>
+<span class="go"># get its direction will raise an exception).</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">Tolerance</span><span class="p">(</span><span class="n">Length</span><span class="o">.</span><span class="n">nanometer</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">d</span><span class="o">.</span><span class="n">direction</span><span class="p">()</span>
+<span class="go">Direction2d.degrees(63.434948822922)</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="api.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Ian Mackenzie.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
