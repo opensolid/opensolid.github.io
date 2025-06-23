@@ -570,7 +570,7 @@
       </ul></li>
       <li><a href="api.html#opensolid.Drawing2d.circle_with">circle_with() (opensolid.Drawing2d static method)</a>
 </li>
-      <li><a href="api.html#opensolid.Polygon2d.circumscribed">circumscribed() (opensolid.Polygon2d static method)</a>
+      <li><a href="api.html#opensolid.Region2d.circumscribed_polygon">circumscribed_polygon() (opensolid.Region2d static method)</a>
 </li>
       <li><a href="api.html#opensolid.Displacement2d.cm">cm() (opensolid.Displacement2d static method)</a>
 
@@ -938,8 +938,6 @@
 </li>
       <li><a href="api.html#opensolid.Frame3d.from_top_plane">from_top_plane() (opensolid.Frame3d static method)</a>
 </li>
-      <li><a href="api.html#opensolid.Polygon2d.from_vertices">from_vertices() (opensolid.Polygon2d static method)</a>
-</li>
       <li><a href="api.html#opensolid.Plane3d.from_x_axis">from_x_axis() (opensolid.Plane3d static method)</a>
 </li>
       <li><a href="api.html#opensolid.PlaneOrientation3d.from_x_direction">from_x_direction() (opensolid.PlaneOrientation3d static method)</a>
@@ -994,7 +992,7 @@
         <li><a href="api.html#opensolid.UvCurve.hermite">(opensolid.UvCurve static method)</a>
 </li>
       </ul></li>
-      <li><a href="api.html#opensolid.Polygon2d.hexagon">hexagon() (opensolid.Polygon2d static method)</a>
+      <li><a href="api.html#opensolid.Region2d.hexagon">hexagon() (opensolid.Region2d static method)</a>
 </li>
       <li><a href="api.html#opensolid.Color.hsl">hsl() (opensolid.Color static method)</a>
 </li>
@@ -1078,7 +1076,7 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api.html#opensolid.Polygon2d.inscribed">inscribed() (opensolid.Polygon2d static method)</a>
+      <li><a href="api.html#opensolid.Region2d.inscribed_polygon">inscribed_polygon() (opensolid.Region2d static method)</a>
 </li>
       <li><a href="api.html#opensolid.Angle.interpolate">interpolate() (opensolid.Angle static method)</a>
 
@@ -1509,9 +1507,11 @@
 </li>
       </ul></li>
       <li><a href="api.html#opensolid.Drawing2d.polygon">polygon() (opensolid.Drawing2d static method)</a>
+
+      <ul>
+        <li><a href="api.html#opensolid.Region2d.polygon">(opensolid.Region2d static method)</a>
 </li>
-      <li><a href="api.html#opensolid.Polygon2d">Polygon2d (class in opensolid)</a>
-</li>
+      </ul></li>
       <li><a href="api.html#opensolid.Drawing2d.polygon_with">polygon_with() (opensolid.Drawing2d static method)</a>
 </li>
       <li><a href="api.html#opensolid.SpurGear.profile">profile() (opensolid.SpurGear method)</a>
@@ -1618,13 +1618,13 @@
 </li>
       <li><a href="api.html#opensolid.Orientation3d.rightward_orientation">rightward_orientation (opensolid.Orientation3d property)</a>
 </li>
-      <li><a href="api.html#opensolid.Frame3d.roll_leftward">roll_leftward() (opensolid.Frame3d method)</a>
+      <li><a href="api.html#opensolid.Frame3d.roll_left">roll_left() (opensolid.Frame3d method)</a>
 </li>
-      <li><a href="api.html#opensolid.Frame3d.roll_leftward_by">roll_leftward_by() (opensolid.Frame3d method)</a>
+      <li><a href="api.html#opensolid.Frame3d.roll_left_by">roll_left_by() (opensolid.Frame3d method)</a>
 </li>
-      <li><a href="api.html#opensolid.Frame3d.roll_rightward">roll_rightward() (opensolid.Frame3d method)</a>
+      <li><a href="api.html#opensolid.Frame3d.roll_right">roll_right() (opensolid.Frame3d method)</a>
 </li>
-      <li><a href="api.html#opensolid.Frame3d.roll_rightward_by">roll_rightward_by() (opensolid.Frame3d method)</a>
+      <li><a href="api.html#opensolid.Frame3d.roll_right_by">roll_right_by() (opensolid.Frame3d method)</a>
 </li>
       <li><a href="api.html#opensolid.AreaVector3d.rotate_around">rotate_around() (opensolid.AreaVector3d method)</a>
 
@@ -1824,13 +1824,13 @@
 </li>
       <li><a href="api.html#opensolid.Angle.tan">tan() (opensolid.Angle method)</a>
 </li>
-      <li><a href="api.html#opensolid.Frame3d.tilt_downward">tilt_downward() (opensolid.Frame3d method)</a>
+      <li><a href="api.html#opensolid.Frame3d.tilt_down">tilt_down() (opensolid.Frame3d method)</a>
 </li>
-      <li><a href="api.html#opensolid.Frame3d.tilt_downward_by">tilt_downward_by() (opensolid.Frame3d method)</a>
+      <li><a href="api.html#opensolid.Frame3d.tilt_down_by">tilt_down_by() (opensolid.Frame3d method)</a>
 </li>
-      <li><a href="api.html#opensolid.Frame3d.tilt_upward">tilt_upward() (opensolid.Frame3d method)</a>
+      <li><a href="api.html#opensolid.Frame3d.tilt_up">tilt_up() (opensolid.Frame3d method)</a>
 </li>
-      <li><a href="api.html#opensolid.Frame3d.tilt_upward_by">tilt_upward_by() (opensolid.Frame3d method)</a>
+      <li><a href="api.html#opensolid.Frame3d.tilt_up_by">tilt_up_by() (opensolid.Frame3d method)</a>
 </li>
       <li><a href="api.html#opensolid.PbrMaterial.titanium">titanium() (opensolid.PbrMaterial static method)</a>
 </li>
@@ -1950,13 +1950,13 @@
         <li><a href="api.html#opensolid.UvRegion.translate_in">(opensolid.UvRegion method)</a>
 </li>
       </ul></li>
-      <li><a href="api.html#opensolid.Frame3d.turn_leftward">turn_leftward() (opensolid.Frame3d method)</a>
+      <li><a href="api.html#opensolid.Frame3d.turn_left">turn_left() (opensolid.Frame3d method)</a>
 </li>
-      <li><a href="api.html#opensolid.Frame3d.turn_leftward_by">turn_leftward_by() (opensolid.Frame3d method)</a>
+      <li><a href="api.html#opensolid.Frame3d.turn_left_by">turn_left_by() (opensolid.Frame3d method)</a>
 </li>
-      <li><a href="api.html#opensolid.Frame3d.turn_rightward">turn_rightward() (opensolid.Frame3d method)</a>
+      <li><a href="api.html#opensolid.Frame3d.turn_right">turn_right() (opensolid.Frame3d method)</a>
 </li>
-      <li><a href="api.html#opensolid.Frame3d.turn_rightward_by">turn_rightward_by() (opensolid.Frame3d method)</a>
+      <li><a href="api.html#opensolid.Frame3d.turn_right_by">turn_right_by() (opensolid.Frame3d method)</a>
 </li>
       <li><a href="api.html#opensolid.Angle.turns">turns() (opensolid.Angle static method)</a>
 </li>
